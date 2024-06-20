@@ -1,0 +1,58 @@
+
+CREATE SCHEMA 'facturaciondb' ;
+
+# Tabla Persona
+CREATE TABLE 'facturaciondb'.'persona' (
+  'per_ID' INT NOT NULL AUTO_INCREMENT,
+  'per_nombre' VARCHAR(45) NULL,
+  'per_apellido' VARCHAR(45) NULL,
+  'per_tipodocumento' VARCHAR(45) NULL,
+  'per_documento' VARCHAR(45) NULL,
+  PRIMARY KEY ('per_ID'));
+
+# Tabla Factura Encabezado
+  CREATE TABLE 'facturaciondb'.'fact_encabezado' (
+  'fenc_id' INT NOT NULL AUTO_INCREMENT,
+  'fenc_numero' INT NULL,
+  'fenc_fecha' DATETIME NULL,
+  'per_documento' INT NULL,
+  'zper_id' INT NULL,
+  PRIMARY KEY ('fenc_id'),
+  UNIQUE INDEX 'fenc_id_UNIQUE' ('fenc_id' ASC) VISIBLE,
+  INDEX 'fk_zPer_ID_idx' ('zper_id' ASC) VISIBLE,
+  CONSTRAINT 'fk_Per_ID'
+    FOREIGN KEY ('zper_id')
+    REFERENCES 'facturaciondb'.'persona' ('per_ID')
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+#Tabla Producto
+  CREATE TABLE 'facturaciondb'.'producto' (
+  'prod_id' INT NOT NULL AUTO_INCREMENT,
+  'prod_descripcion' VARCHAR(45) NULL,
+  'prod_precio' FLOAT NULL,
+  'prod_costo' FLOAT NULL,
+  'prod_um' VARCHAR(45) NULL,
+  PRIMARY KEY ('prod_id'));
+
+# Tabla Factura Detalle
+CREATE TABLE 'facturaciondb'.'fact_detalle' (
+  'fdet_id' INT NOT NULL AUTO_INCREMENT,
+  'fdet_linea' VARCHAR(45) NULL,
+  'fdet_cantidad' INT NULL,
+  'zprod_id' INT NULL,
+  'zfenc_id' INT NULL,
+  PRIMARY KEY ('fdet_id'),
+  UNIQUE INDEX 'fdet_id_UNIQUE' ('fdet_id' ASC) VISIBLE,
+  INDEX 'fk_Prod_ID_idx' ('zprod_id' ASC) VISIBLE,
+  INDEX 'fk_FEnc_ID_idx' ('zfenc_id' ASC) VISIBLE,
+  CONSTRAINT 'fk_Prod_ID'
+    FOREIGN KEY ('zprod_id')
+    REFERENCES 'facturaciondb'.'producto' ('prod_id')
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT 'fk_FEnc_ID'
+    FOREIGN KEY ('zfenc_id')
+    REFERENCES 'facturaciondb'.'fact_encabezado' ('fenc_id')
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
