@@ -4,21 +4,30 @@ require_once "../model/producto.php";
 $producto = new productos();
 
 // Se llama a la funcion LimpiarCadena para evitar Inyecciones SQL.
-$idProducto = isset($_POST["idProducto"]) ? limpiarCadena($_POST["idProducto"]) : "";
-$descripcion = isset($_POST["descripcion"]) ? limpiarCadena($_POST["descripcion"]) : "";
+/*$idProducto = isset($_POST['idProducto']) ? limpiarCadena($_POST['idProducto']) : "";
+$descripcion = isset($_POST['descripcion']) ? limpiarCadena($_POST['descripcion']) : "";
 $precio = isset($_POST["precio"]) ? limpiarCadena($_POST["precio"]) : "";
 $costo = isset($_POST["costo"]) ? limpiarCadena($_POST["costo"]) : "";
 $unidadMedida = isset($_POST["unidadMedida"]) ? limpiarCadena($_POST["unidadMedida"]) : "";
+*/
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $idProducto = isset($_POST['idProducto']) ? limpiarCadena($_POST['idProducto']) : "";
+    $descripcion = isset($_POST['descripcion']) ? limpiarCadena($_POST['descripcion']) : "";
+    $precio = isset($_POST["precio"]) ? limpiarCadena($_POST["precio"]) : "";
+    $costo = isset($_POST["costo"]) ? limpiarCadena($_POST["costo"]) : "";
+    $unidadMedida = isset($_POST["unidadMedida"]) ? limpiarCadena($_POST["unidadMedida"]) : "";
+}
 
 switch ($_GET["op"]) {
     case 'guardarEditar':
         if (empty($idProducto)) {
-            $rspta = $producto->setProducto($descripcion, $precio, $costo, $unidadMedida);
-            echo $rspta ? "PRODUCTO REGISTRADO" : "PRODUCTO NO SE PUDO REGISTRAR";
+            $rspta = $producto->setProducto($descripcion, $precio, $costo, $unidadMedida);            
+            echo $rspta ? "ok" : "PRODUCTO NO SE PUDO REGISTRAR";
         } else {
             $rspta = $producto->updateProducto($idProducto, $descripcion, $precio, $costo, $unidadMedida);
-            echo $rspta ? "PRODUCTO ACTUALIZADO" : "PRODUCTO NO SE PUDO ACTUALIZAR";
-        }
+            echo $rspta ? "ok" : "PRODUCTO NO SE PUDO ACTUALIZAR";
+        }        
         break;
 
     case 'listar':

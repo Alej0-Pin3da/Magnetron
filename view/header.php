@@ -23,6 +23,8 @@
   <link rel="stylesheet" href="../public/plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="../public/plugins/summernote/summernote-bs4.min.css">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="../public/plugins/toastr/toastr.min.css">
 
   <!-- DataTables -->
   <link rel="stylesheet" href="../public/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">

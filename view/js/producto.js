@@ -1,77 +1,180 @@
 var tabla;
 
 function init() {
-    mostrarFormulario(false);
-    listar();
+  mostrarFormulario(false);
+  listar();
+
+  $("#formProducto").on("submit", function (e) {
+    guardarEditar(e);
+  });
 }
 
 function limpiar() {
-    $("#txtId").val("");
-    $("#txtNombre").val("");
-    $("#txtStock").val("");
-    $("#txtPrecio").val("");
+  $("#txtId").val("");
+  $("#txtNombre").val("");
+  $("#txtStock").val("");
+  $("#txtPrecio").val("");
 }
 
-function mostrarFormulario(x){
-    limpiar();
+function mostrarFormulario(x) {
+  limpiar();
 
-    if(x){
-        $("#listadoProducto").hide();
-        $("#formProducto").show();
-        $("#btnGuardar").prop("disabled", false);
-        $("#btnAgregar").hide();
-    } else {
-        $("#listadoProducto").show();
-        $("#formProducto").hide();
-        $("#btnGuardar").prop("disabled", true);
-        $("#btnAgregar").show();
+  if (x) {
+    $("#listadoProducto").hide();
+    $("#listado").hide();
+    $("#formProducto").show();
+    $("#btnGuardar").prop("disabled", false);
+    $("#btnAgregar").hide();
+  } else {
+    $("#listadoProducto").show();
+    $("#listado").show();
+    $("#formProducto").hide();
+    $("#btnGuardar").prop("disabled", true);
+    $("#btnAgregar").show();
+  }
+}
+
+function cancelarFormulario() {
+  limpiar();
+  mostrarFormulario(false);
+}
+
+
+/**
+ * Initializes the DataTable with the necessary configurations.
+ *
+ * @return {void}
+ */
+function listar() {
+  // Inicializar DataTable
+  tabla = $("#tblListado").DataTable({
+    // Indica que los datos se van a procesar en segundo plano
+    aProcessing: true,
+    // La recuperación de datos se realiza en el lado del servidor.
+    aServerSide: true,
+    // Agregar botones para exportar datos y que botones se van a mostrar
+    dom: "Bfrtip",
+    buttons: ["copyHtml5", "excelHtml5", "csvHtml5", "pdf"],
+
+    // Configuración AJAX para recuperación de datos
+    ajax: {
+      url: "../ajax/producto.php?op=listar",
+      type: "get",
+      dataType: "json",
+      error: function (e) {
+        console.log(e.responseText);
+      },
+    },
+    // Limpiar la tabla existente si existe
+    bDestroy: true,
+    // Número de registros a mostrar por página
+    iDisplayLength: 5,
+    // Ordena los datos en orden ascendente por la primera columna.
+    order: [[0, "asc"]],
+    // Configuración de idioma
+    language: {
+      "sProcessing": "Procesando...",
+      "sLengthMenu": "Mostrar _MENU_ registros",
+      "sZeroRecords": "No se encontraron resultados",
+      "sEmptyTable": "Ningún dato disponible en esta tabla",
+      "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+      "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+      "sInfoPostFix": "",
+      "sSearch": "Buscar:",
+      "sUrl": "",
+      "sInfoThousands": ",",
+      "sLoadingRecords": "Cargando...",
+      "oPaginate": {
+        "sFirst": "Primero",
+        "sLast": "Último",
+        "sNext": "Siguiente",
+        "sPrevious": "Anterior"
+      },
+      "oAria": {
+        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+      }
     }
-}
-
-function cancelarFormulario(){
-    limpiar();
-    mostrarFormulario(false);
+  });
 }
 
 /**
- * Function to list the products in a DataTable.
- * The data is fetched from the server using AJAX.
- * The DataTable is configured with pagination and sorting capabilities.
- * Buttons for copying, exporting to Excel and CSV are also added.
+ * Guardar o editar un producto.
+ * 
+ * @param {Event} e - El evento de envío del formulario.
  */
-function listar() {
-    // Initialize the DataTable
-    tabla = $("#tblListado").DataTable({
-        // Activate DataTables processing
-        "aProcessing": true,
-        // Enable server-side pagination and filtering
-        "aServerSide": true,
-        // Define the elements of the table control
-        dom: 'Bfrtip',
-        // Add buttons for copying, exporting to Excel and CSV
-        buttons: [
-            'copyHtml5',
-            'excelHtml5',
-            'csvHtml5',
-            'pdf'
-        ],
-        // Specify the AJAX request details
-        "ajax": {
-            url: '../ajax/producto.php?op=listar', // Server-side script to handle the request
-            type: "get", // Request method
-            dataType: "json", // Expected data type of the response
-            // Error handling function
-            error: function (e) {
-                console.log(e.responseText);
-            }
-        },
-        // Destroy the existing DataTable if it exists
-        "bDestroy": true,
-        // Set the number of rows to display per page
-        "iDisplayLength": 5,
-        // Set the default sort order of the table
-        "order": [[0, "asc"]]
-    });
+function guardarEditar(e) {
+  e.preventDefault(); // Previene el comportamiento predeterminado del formulario.
+  $("#btnGuardar").prop("disabled", true);
+  debugger;
+
+  // Obtiene los valores de los campos del formulario.
+  var descripcion = $("#descripcion").val();
+  var precio = $("#precio").val();
+  var costo = $("#costo").val();
+  var unidadMedida = $("#unidadMedida").val();
+  var idProducto = $("#idProducto").val();
+
+  // Configuración de Toastr.
+  toastr.options = {
+    closeButton: false,
+    debug: false,
+    newestOnTop: false,
+    progressBar: false,
+    positionClass: "toast-top-right",
+    preventDuplicates: false,
+    onclick: null,
+    showDuration: "300",
+    hideDuration: "1000",
+    timeOut: "5000",
+    extendedTimeOut: "1000",
+    showEasing: "swing",
+    hideEasing: "linear",
+    showMethod: "fadeIn",
+    hideMethod: "fadeOut",
+  };
+
+  // Crea un objeto FormData para enviar los datos del formulario.
+  var formData = {
+    descripcion: descripcion,
+    precio: precio,
+    costo: costo,
+    unidadMedida: unidadMedida,
+    idProducto: idProducto,
+  };
+
+  // Envía una solicitud AJAX para guardar o editar el producto.
+  $.ajax({
+    url: "../ajax/producto.php?op=guardarEditar",
+    type: "POST",
+    data: formData,
+    success: function (data) {
+      debugger;
+      $("#btnGuardar").prop("disabled", false);
+      if (data == "ok") {
+        // Muestra una notificación de éxito.
+        toastr
+          .success("El producto se ha guardado correctamente.")
+          .css("background-color", "#28a745")
+          .css("color", "white");
+        mostrarFormulario(false);
+        tabla.ajax.reload();
+      } else {
+        // Muestra una notificación de error.
+        toastr
+          .error("Hubo un problema al guardar el producto.")
+          .css("background-color", "#dc3545")
+          .css("color", "white");
+      }
+    },
+
+    error: function (e) {
+      console.log(e.responseText);
+    },
+  });
+
+  limpiar();
 }
 
 init();

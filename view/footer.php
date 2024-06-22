@@ -25,11 +25,6 @@
 <!-- ChartJS -->
 <script src="../public/plugins/chart.js/Chart.min.js"></script>
 
-<!-- AdminLTE for demo purposes -->
-<script src="../public/dist/js/demo.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="../public/dist/js/pages/dashboard2.js"></script>
-
 <!-- DataTables -->
 <script src="../public/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="../public/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -43,6 +38,9 @@
 <script src="../public/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="../public/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="../public/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+<!-- Toastr -->
+<script src="../public/plugins/toastr/toastr.min.js"></script>
 
 <!-- Funciones JS Producto -->
 <script src="../view/js/producto.js"></script>

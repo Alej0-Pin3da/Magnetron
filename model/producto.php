@@ -20,7 +20,7 @@ class productos{
     {
         // Creacion de la consulta SQL para insertar un nuevo producto.
         $sql = "INSERT 
-                    INTO productos (prod_descripcion, prod_precio, prod_costo, prod_um)
+                    INTO producto (prod_descripcion, prod_precio, prod_costo, prod_um)
                 VALUES ('$descripcion', '$precio', '$costo', '$unidadMedida')";
 
         // Llamado a la funcion ejecutarConsulta para ejecutar la consulta.
@@ -28,7 +28,7 @@ class productos{
     }
 
     /**
-     * Actualizar un producto en la tabla 'productos'.
+     * Actualizar un producto en la tabla 'producto'.
      *
      * @param int $idProducto The ID of the product to update.
      * @param string $descripcion The new description of the product.
@@ -40,7 +40,7 @@ class productos{
     public function updateProducto ($idProducto, $descripcion, $precio, $costo, $unidadMedida){
 
         // Creacion de la consulta SQL para Acctualizar un producto.
-        $sql = "UPDATE productos SET 
+        $sql = "UPDATE producto SET 
                     prod_descripcion = '$descripcion', 
                     prod_precio = '$precio', 
                     prod_costo = '$costo', 
@@ -52,7 +52,7 @@ class productos{
     }
 
     /**
-     * Traer de la tabla 'productos' todos los registros.
+     * Traer de la tabla 'producto' todos los registros.
      */
     public function getProductos(){
         /// Creacion de la consulta SQL para Acctualizar traer todos los productos.

@@ -7,7 +7,7 @@
 
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center">
-      <img class="animation__wobble" src="../public/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
+      <img class="animation__wobble" src="../public/dist/img/MagnetronLogo.png" alt="AdminLTELogo" height="60" width="60">
     </div>
 
     <!-- Navbar -->
@@ -40,7 +40,7 @@
       <!-- Main content -->
       <section class="content">
         <div class="container-fluid">
-          <div class="row">
+          <div class="row" id="listado">
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
@@ -51,7 +51,7 @@
                     </button>
                   </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body" id="listadoProducto">
                   <table id="tblListado" class="table table-bordered table-hover">
                     <thead>
                       <tr>
@@ -66,27 +66,52 @@
                     </tbody>
                   </table>
                   <!-- /.box-body -->
-                  <div class="panel-body" style="height: 400px;" id="formProducto">
-                    <form name="formulario" id="formulario" method="POST">
-                      <div class="form-group col-1g-6 col-md-6 col-sm-6 col-xs-12">
-                        <label>Nombre :</label>
-                        <input type="hidden" name="idcategoria" id="idcategoria">
-                        <input type="text" class="form-control" name="nombre" id="nombre" maxlength="50" placeholder="Nombre" required>
-                      </div>
-                      <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <label>Descripción :</label>
-                        <input type="text" class="form-control" name="descripcion" id="descripcion" maxlength="256" placeholder="Descripción">
-                      </div>
-                      <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <button class="btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i> Guardar</button>
-                        <button class="btn btn-danger" onclick="cancelarFormulario()" type="button"><i class="fafa-arrow-circle-left"></i> Cancelar</button>
-                      </div>
-                    </form>
-                  </div>
                 </div>
               </div>
             </div>
           </div><!-- /.container-fluid -->
+          <div class="card card-info">
+            <div class="card-header">
+              <h3 class="card-title">Horizontal Form</h3>
+            </div>
+
+            <form class="form-horizontal" data-bitwarden-watching="1" id="formProducto" method="POST">
+              <div class="card-body">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Descripcion</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="descripcion" placeholder="Descripcion">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Precio</label>
+                  <div class="col-sm-9">
+                    <input type="number" class="form-control" id="precio" placeholder="Precio">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Costo</label>
+                  <div class="col-sm-9">
+                    <input type="number" class="form-control" id="costo" placeholder="Costo">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Unidad de Medida</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="unidadMedida" placeholder="Unidad de Medida">
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-footer">
+                <input type="hidden" id="idProducto" value="0">
+                <button class="btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i> Guardar</button>
+                <button class="btn btn-danger" onclick="cancelarFormulario()" type="button"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>
+              </div>
+            </form>
+
+          </div>
+
       </section>
       <!-- /.content -->
     </div>
