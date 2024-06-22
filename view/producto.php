@@ -60,6 +60,7 @@
                         <th>Precio</th>
                         <th>Costo</th>
                         <th>Unidad de Medida</th>
+                        <th>Acciones</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -70,12 +71,12 @@
               </div>
             </div>
           </div><!-- /.container-fluid -->
-          <div class="card card-info">
-            <div class="card-header">
-              <h3 class="card-title">Horizontal Form</h3>
-            </div>
 
-            <form class="form-horizontal" data-bitwarden-watching="1" id="formProducto" method="POST">
+          <form class="form-horizontal" data-bitwarden-watching="1" id="formProducto" method="POST">
+            <div class="card card-info">
+              <div class="card-header">
+                <h3 class="card-title">Producto</h3>
+              </div>
               <div class="card-body">
                 <div class="form-group row">
                   <label class="col-sm-3 col-form-label">Descripcion</label>
@@ -108,10 +109,8 @@
                 <button class="btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i> Guardar</button>
                 <button class="btn btn-danger" onclick="cancelarFormulario()" type="button"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>
               </div>
-            </form>
-
-          </div>
-
+            </div>
+          </form>
       </section>
       <!-- /.content -->
     </div>

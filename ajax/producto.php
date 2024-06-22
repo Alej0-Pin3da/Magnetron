@@ -26,7 +26,7 @@ switch ($_GET["op"]) {
             echo $rspta ? "ok" : "PRODUCTO NO SE PUDO REGISTRAR";
         } else {
             $rspta = $producto->updateProducto($idProducto, $descripcion, $precio, $costo, $unidadMedida);
-            echo $rspta ? "ok" : "PRODUCTO NO SE PUDO ACTUALIZAR";
+            echo $rspta ? "okUpdated" : "PRODUCTO NO SE PUDO ACTUALIZAR";
         }        
         break;
 
@@ -42,6 +42,7 @@ switch ($_GET["op"]) {
                 "2" => $value['prod_precio'],
                 "3" => $value['prod_costo'],    
                 "4" => $value['prod_um'],
+                "5" => '<button class="btn btn-warning btn-sm" onclick="mostrar(' . $value['prod_id'] . ')"><i class="fa fa-pencil"></i></button>',
             ];
         }   
         $results = [    

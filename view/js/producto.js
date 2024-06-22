@@ -160,6 +160,14 @@ function guardarEditar(e) {
           .css("color", "white");
         mostrarFormulario(false);
         tabla.ajax.reload();
+      }else if (data == "okUpdated") {
+        // Muestra una notificación de éxito.
+        toastr
+          .success("El producto se ha Actualizo correctamente.")
+          .css("background-color", "#28a745")
+          .css("color", "white");
+        mostrarFormulario(false);
+        tabla.ajax.reload();
       } else {
         // Muestra una notificación de error.
         toastr
@@ -175,6 +183,42 @@ function guardarEditar(e) {
   });
 
   limpiar();
+}
+
+function mostrar(id) {
+  if (id === undefined || id === null || typeof id !== "number") {
+    console.error("Invalid id:", id);
+    return;
+  }
+
+  $.post({
+    url: "../ajax/producto.php?op=mostrar",
+    data: { idProducto: id },
+    success: function (response, status, jqXHR) {
+      try {
+        var data = JSON.parse(response);
+      } catch (e) {
+        console.error("Failed to parse response:", e);
+        return;
+      }
+      console.log("Response:", data);
+
+      mostrarFormulario(true);
+
+      // Verificar si el input está presente en el DOM
+      console.log($("#descripcion"));
+
+      // Asignar valores a los inputs
+      $("#idProducto").val(data.prod_id);
+      $("#descripcion").val(data.prod_descripcion);
+      $("#costo").val(data.prod_costo);
+      $("#unidadMedida").val(data.prod_um);
+      $("#precio").val(data.prod_precio);
+    },
+    error: function (jqXHR, status, error) {
+      console.error("Failed to fetch product data:", error);
+    },
+  });
 }
 
 init();
