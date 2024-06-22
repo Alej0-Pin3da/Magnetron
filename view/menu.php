@@ -21,7 +21,7 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item menu-open">
-            <a href="#" class="nav-link">
+            <a href="../view/index.php" class="nav-link">
               <i class="nav-icon fa-solid fa-house"></i>
               <p>
                 Inicio
@@ -29,16 +29,22 @@
             </a>
           </li>
           <!-- Menu Productos -->
-          <li class="nav-item">
+          <li class="nav-item" id="menu-productos">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-duotone fa-toolbox"></i>
               <p>
                 Productos
                 <i class="fas fa-angle-left right"></i>
-                <span class="badge badge-info right">2</span>
+                <span class="badge badge-info right" id="submenu-count">2</span>
               </p>
             </a>
-            <ul class="nav nav-treeview">
+            <ul class="nav nav-treeview" id="submenu-list">
+              <li class="nav-item">
+                <a href="../view/producto.php" class="nav-link" id="submenu-administrar-productos">
+                  <i class="nav-icon fa-solid fa-gears"></i>
+                  <p>Administrar Productos</p>
+                </a>
+              </li>
               <li class="nav-item">
                 <a href="pages/layout/top-nav.html" class="nav-link">
                   <i class="nav-icon fa-solid fa-chart-simple"></i>
@@ -59,6 +65,7 @@
               </li>
             </ul>
           </li>
+
           <!-- Menu Personas -->
           <li class="nav-item">
             <a href="#" class="nav-link">

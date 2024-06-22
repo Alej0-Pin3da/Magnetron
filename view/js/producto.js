@@ -221,4 +221,30 @@ function mostrar(id) {
   });
 }
 
+
+document.addEventListener("DOMContentLoaded", function() {
+  // Obtener la URL actual
+  var currentUrl = window.location.pathname;
+
+  // Verificar si la URL contiene 'producto.php'
+  if (currentUrl.includes("producto.php")) {
+    // Agregar clase 'active' al menú principal
+    document.getElementById("menu-productos").classList.add("menu-open");
+    document.getElementById("menu-productos").querySelector("a.nav-link").classList.add("active");
+
+    // Agregar clase 'active' al submenú correspondiente
+    document.getElementById("submenu-administrar-productos").classList.add("active");
+  }
+
+  // Contar los elementos de submenú
+  var submenuList = document.getElementById("submenu-list");
+  var submenuCount = submenuList.getElementsByClassName("nav-item").length;
+
+  // Actualizar el contador en el span
+  document.getElementById("submenu-count").textContent = submenuCount;
+});
+
+
+
+
 init();

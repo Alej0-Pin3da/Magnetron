@@ -3,14 +3,6 @@ require_once "../model/producto.php";
 
 $producto = new productos();
 
-// Se llama a la funcion LimpiarCadena para evitar Inyecciones SQL.
-/*$idProducto = isset($_POST['idProducto']) ? limpiarCadena($_POST['idProducto']) : "";
-$descripcion = isset($_POST['descripcion']) ? limpiarCadena($_POST['descripcion']) : "";
-$precio = isset($_POST["precio"]) ? limpiarCadena($_POST["precio"]) : "";
-$costo = isset($_POST["costo"]) ? limpiarCadena($_POST["costo"]) : "";
-$unidadMedida = isset($_POST["unidadMedida"]) ? limpiarCadena($_POST["unidadMedida"]) : "";
-*/
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $idProducto = isset($_POST['idProducto']) ? limpiarCadena($_POST['idProducto']) : "";
     $descripcion = isset($_POST['descripcion']) ? limpiarCadena($_POST['descripcion']) : "";
