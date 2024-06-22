@@ -3,14 +3,6 @@ require_once "../model/productoCantidad.php";
 
 $productoCantidad = new productoCantidad();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $idProducto = isset($_POST['idProducto']) ? limpiarCadena($_POST['idProducto']) : "";
-    $descripcion = isset($_POST['descripcion']) ? limpiarCadena($_POST['descripcion']) : "";
-    $precio = isset($_POST["precio"]) ? limpiarCadena($_POST["precio"]) : "";
-    $costo = isset($_POST["costo"]) ? limpiarCadena($_POST["costo"]) : "";
-    $unidadMedida = isset($_POST["unidadMedida"]) ? limpiarCadena($_POST["unidadMedida"]) : "";
-}
-
 switch ($_GET["op"]) {
     case 'listar':
         $rspta = $productoCantidad->getProductoCantidad();
@@ -19,10 +11,9 @@ switch ($_GET["op"]) {
 
         foreach ($rspta as $key => $value) {
             $data[] = [
-                "0" => $value['per_id'],
-                "1" => $value['per_nombre'],  
-                "2" => $value['per_apellido'],
-                "3" => formatCurrency($value['total_facturado']),
+                "0" => $value['prod_id'],
+                "1" => $value['prod_descripcion'],  
+                "2" => $value['total_cantidad_facturada'],
             ];
         }   
         $results = [    

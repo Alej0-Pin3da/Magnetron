@@ -41,10 +41,9 @@
                   <table id="tblListado" class="table table-bordered table-hover">
                     <thead>
                       <tr>
-                        <th>Id Persona</th>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Total Facturado</th>
+                        <th>Id Producto</th>
+                        <th>Descripcion</th>
+                        <th>Total Cantidad Facturado</th>
                       </tr>
                     </thead>
                     <tbody>

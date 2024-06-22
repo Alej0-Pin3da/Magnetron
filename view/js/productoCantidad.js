@@ -49,7 +49,7 @@ function listar() {
     // Número de registros a mostrar por página
     iDisplayLength: 5,
     // Ordena los datos en orden ascendente por la primera columna.
-    order: [[0, "asc"]],
+    order: [[2, "desc"]],
     // Configuración de idioma
     language: {
       "sProcessing": "Procesando...",

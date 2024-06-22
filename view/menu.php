@@ -74,7 +74,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link" id="link-total-facturado">
+                <a href="../view/personaFacturado.php" class="nav-link" id="link-total-facturado">
                   <i class="nav-icon fa-solid fa-arrows-up-to-line"></i>
                   <p>Total facturado</p>
                 </a>
