@@ -3073,12 +3073,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Lista de enlaces con sus IDs y URLs correspondientes
   var links = [
-    { id: 'link-inicio', url: '/view/index.php' },
+    { id: 'link-inicio', url: '/view/' },
     { id: 'link-administrar-productos', url: '/view/producto.php', parentId: 'menu-productos' },
     { id: 'link-cantidad-facturada', url: '/view/productoCantidad.php', parentId: 'menu-productos' },
     { id: 'link-utilidad', url: '/view/productoUtilidad.php', parentId: 'menu-productos' },
     { id: 'link-margen-ganancia', url: '/view/productoGanancia.php', parentId: 'menu-productos' },
     { id: 'link-personas', url: '#', parentId: 'menu-personas' },
+    { id: 'link-administrar-personas', url: '/view/persona.php', parentId: 'menu-personas' },
     { id: 'link-total-facturado', url: '/pages/layout/top-nav.html', parentId: 'menu-personas' },
     { id: 'link-producto-mas-caro', url: '/pages/layout/top-nav-sidebar.html', parentId: 'menu-personas' }
   ];

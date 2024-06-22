@@ -64,6 +64,8 @@
     console.log('Utilidad');    loadScript('../view/js/productoUtilidad.js');
   } else if (currentUrl.includes('/view/productoGanancia.php')) {
     loadScript('../view/js/productoGanancia.js');
+  } else if (currentUrl.includes('/view/persona.php')) {
+    loadScript('../view/js/persona.js');
   }
 });
 

@@ -21,7 +21,7 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
-            <a href="../view/index.php" class="nav-link" id="link-inicio">
+            <a href="../view" class="nav-link" id="link-inicio">
               <i class="nav-icon fa-solid fa-house"></i>
               <p>Inicio</p>
             </a>
@@ -61,12 +61,18 @@
           </li>
 
           <!-- Menu Personas -->
-          <li class="nav-item">
+          <li class="nav-item" id="menu-personas">
             <a href="#" class="nav-link" id="link-personas">
               <i class="nav-icon fa-solid fa-users"></i>
               <p>Personas<i class="fas fa-angle-left right"></i></p>
             </a>
             <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="../view/persona.php" class="nav-link" id="link-administrar-personas">
+                  <i class="nav-icon fa-solid fa-user-gear"></i>
+                  <p>Administrar Personas</p>
+                </a>
+              </li>
               <li class="nav-item">
                 <a href="pages/layout/top-nav.html" class="nav-link" id="link-total-facturado">
                   <i class="nav-icon fa-solid fa-arrows-up-to-line"></i>
