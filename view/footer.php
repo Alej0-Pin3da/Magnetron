@@ -61,7 +61,9 @@
   } else if (currentUrl.includes('/view/productoCantidad.php')) {
     loadScript('../view/js/productoCantidad.js');
   } else if (currentUrl.includes('/view/productoUtilidad.php')) {
-    loadScript('../view/js/productoUtilidad.js');
+    console.log('Utilidad');    loadScript('../view/js/productoUtilidad.js');
+  } else if (currentUrl.includes('/view/productoGanancia.php')) {
+    loadScript('../view/js/productoGanancia.js');
   }
 });
 

@@ -52,7 +52,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav-sidebar.html" class="nav-link" id="link-margen-ganancia">
+                <a href="../view/productoGanancia.php" class="nav-link" id="link-margen-ganancia">
                   <i class="nav-icon fa-solid fa-percent"></i>
                   <p>Margen de Ganancia</p>
                 </a>
