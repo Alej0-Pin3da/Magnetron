@@ -3080,7 +3080,7 @@ document.addEventListener('DOMContentLoaded', function() {
     { id: 'link-margen-ganancia', url: '/view/productoGanancia.php', parentId: 'menu-productos' },
     { id: 'link-personas', url: '#', parentId: 'menu-personas' },
     { id: 'link-administrar-personas', url: '/view/persona.php', parentId: 'menu-personas' },
-    { id: 'link-total-facturado', url: '/pages/layout/top-nav.html', parentId: 'menu-personas' },
+    { id: 'link-total-facturado', url: '/view/personaFacturado.php', parentId: 'menu-personas' },
     { id: 'link-producto-mas-caro', url: '/pages/layout/top-nav-sidebar.html', parentId: 'menu-personas' }
   ];
 

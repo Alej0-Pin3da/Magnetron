@@ -66,6 +66,8 @@
     loadScript('../view/js/productoGanancia.js');
   } else if (currentUrl.includes('/view/persona.php')) {
     loadScript('../view/js/persona.js');
+  } else if (currentUrl.includes('/view/personaFacturado.php')) {
+    loadScript('../view/js/personaFacturado.js');
   }
 });
 
