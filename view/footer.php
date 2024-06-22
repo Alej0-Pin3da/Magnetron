@@ -60,6 +60,8 @@
     loadScript('../view/js/producto.js');
   } else if (currentUrl.includes('/view/productoCantidad.php')) {
     loadScript('../view/js/productoCantidad.js');
+  } else if (currentUrl.includes('/view/productoUtilidad.php')) {
+    loadScript('../view/js/productoUtilidad.js');
   }
 });
 

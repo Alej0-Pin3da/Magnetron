@@ -3076,7 +3076,7 @@ document.addEventListener('DOMContentLoaded', function() {
     { id: 'link-inicio', url: '/view/index.php' },
     { id: 'link-administrar-productos', url: '/view/producto.php', parentId: 'menu-productos' },
     { id: 'link-cantidad-facturada', url: '/view/productoCantidad.php', parentId: 'menu-productos' },
-    { id: 'link-utilidad', url: '/pages/layout/top-nav-sidebar.html', parentId: 'menu-productos' },
+    { id: 'link-utilidad', url: '/view/productoUtilidad.php', parentId: 'menu-productos' },
     { id: 'link-margen-ganancia', url: '/pages/layout/top-nav-sidebar.html', parentId: 'menu-productos' },
     { id: 'link-personas', url: '#', parentId: 'menu-personas' },
     { id: 'link-total-facturado', url: '/pages/layout/top-nav.html', parentId: 'menu-personas' },

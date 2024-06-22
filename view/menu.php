@@ -46,7 +46,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav-sidebar.html" class="nav-link" id="link-utilidad">
+                <a href="../view/productoUtilidad.php" class="nav-link" id="link-utilidad">
                   <i class="nav-icon fa-solid fa-dollar-sign"></i>
                   <p>Utilidad Generada</p>
                 </a>
