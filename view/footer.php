@@ -43,4 +43,24 @@
 <script src="../public/plugins/toastr/toastr.min.js"></script>
 
 <!-- Funciones JS Producto -->
-<script src="../view/js/producto.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+  // Obtener la URL actual
+  var currentUrl = window.location.pathname;
+
+  // Función para cargar un script
+  function loadScript(url) {
+    var script = document.createElement('script');
+    script.src = url;
+    document.head.appendChild(script);
+  }
+
+  // Cargar el script correspondiente según la URL
+  if (currentUrl.includes('/view/producto.php')) {
+    loadScript('../view/js/producto.js');
+  } else if (currentUrl.includes('/view/productoCantidad.php')) {
+    loadScript('../view/js/productoCantidad.js');
+  }
+});
+
+</script>

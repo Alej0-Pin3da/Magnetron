@@ -3067,3 +3067,34 @@
 
 }));
 //# sourceMappingURL=adminlte.js.map
+document.addEventListener('DOMContentLoaded', function() {
+  // Obtener la URL actual
+  var currentUrl = window.location.pathname;
+
+  // Lista de enlaces con sus IDs y URLs correspondientes
+  var links = [
+    { id: 'link-inicio', url: '/view/index.php' },
+    { id: 'link-administrar-productos', url: '/view/producto.php', parentId: 'menu-productos' },
+    { id: 'link-cantidad-facturada', url: '/view/productoCantidad.php', parentId: 'menu-productos' },
+    { id: 'link-utilidad', url: '/pages/layout/top-nav-sidebar.html', parentId: 'menu-productos' },
+    { id: 'link-margen-ganancia', url: '/pages/layout/top-nav-sidebar.html', parentId: 'menu-productos' },
+    { id: 'link-personas', url: '#', parentId: 'menu-personas' },
+    { id: 'link-total-facturado', url: '/pages/layout/top-nav.html', parentId: 'menu-personas' },
+    { id: 'link-producto-mas-caro', url: '/pages/layout/top-nav-sidebar.html', parentId: 'menu-personas' }
+  ];
+
+  // Iterar sobre los enlaces y activar el correspondiente
+  links.forEach(function(link) {
+    if (currentUrl.includes(link.url)) {
+      var element = document.getElementById(link.id);
+      element.classList.add('active');
+
+      // Si el enlace tiene un menú padre, activarlo también
+      if (link.parentId) {
+        var parentElement = document.getElementById(link.parentId);
+        parentElement.classList.add('menu-open');
+        parentElement.querySelector('.nav-link').classList.add('active');
+      }
+    }
+  });
+});

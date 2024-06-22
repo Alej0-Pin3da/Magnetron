@@ -1,7 +1,7 @@
 <?php
-require_once "../model/producto.php";
+require_once "../model/productoCantidad.php";
 
-$producto = new productos();
+$productoCantidad = new productoCantidad();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $idProducto = isset($_POST['idProducto']) ? limpiarCadena($_POST['idProducto']) : "";
@@ -12,29 +12,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 switch ($_GET["op"]) {
-    case 'guardarEditar':
-        if (empty($idProducto)) {
-            $rspta = $producto->setProducto($descripcion, $precio, $costo, $unidadMedida);            
-            echo $rspta ? "ok" : "PRODUCTO NO SE PUDO REGISTRAR";
-        } else {
-            $rspta = $producto->updateProducto($idProducto, $descripcion, $precio, $costo, $unidadMedida);
-            echo $rspta ? "okUpdated" : "PRODUCTO NO SE PUDO ACTUALIZAR";
-        }        
-        break;
-
     case 'listar':
-        $rspta = $producto->getProductos();
+        $rspta = $productoCantidad->getProductoCantidad();
         //Vamos a declarar un array
         $data = [];
 
         foreach ($rspta as $key => $value) {
             $data[] = [
-                "0" => $value['prod_id'],
-                "1" => $value['prod_descripcion'],  
-                "2" => formatCurrency($value['prod_precio']),
-                "3" => formatCurrency($value['prod_costo']),
-                "4" => $value['prod_um'],
-                "5" => '<button class="btn btn-warning btn-sm" onclick="mostrar(' . $value['prod_id'] . ')"><i class="fa fa-pencil"></i></button>',
+                "0" => $value['per_id'],
+                "1" => $value['per_nombre'],  
+                "2" => $value['per_apellido'],
+                "3" => formatCurrency($value['total_facturado']),
             ];
         }   
         $results = [    
@@ -45,13 +33,9 @@ switch ($_GET["op"]) {
         ];
         echo json_encode($results, JSON_UNESCAPED_UNICODE);
         break;
-
-    case 'mostrar':
-        $rspta = $producto->getProductoUnico($idProducto);
-        echo json_encode($rspta, JSON_UNESCAPED_UNICODE);
-        break;
 }
 
+// Función para formatear el valor
 function formatCurrency($value) {
     return '$' . number_format($value, 0, '', ".");
 }
