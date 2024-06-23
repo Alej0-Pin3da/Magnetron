@@ -70,6 +70,8 @@
     loadScript('../view/js/personaFacturado.js');
   } else if (currentUrl.includes('/view/personaProdMasCaro.php')) {
     loadScript('../view/js/personaProdMasCaro.js');
+  } else if (currentUrl.includes('/view/')) {
+    loadScript('../view/js/factura.js');
   }
 });
 

@@ -1,7 +1,7 @@
 var tabla;
 
 function init() {
-  mostrarFormulario(false);
+  //mostrarFormulario(false);
   listar();
 
   $("#formProducto").on("submit", function (e) {
@@ -36,9 +36,13 @@ function mostrarFormulario(x) {
 
 function cancelarFormulario() {
   limpiar();
-  mostrarFormulario(false);
+  //mostrarFormulario(false);
 }
 
+// Function to open the modal and copy the content
+function mostrarModal() {
+  $('#modal-factura').modal('show');
+}
 
 /**
  * Initializes the DataTable with the necessary configurations.
@@ -58,7 +62,7 @@ function listar() {
 
     // Configuración AJAX para recuperación de datos
     ajax: {
-      url: "../ajax/producto.php?op=listar",
+      url: "../ajax/factura.php?op=listar",
       type: "get",
       dataType: "json",
       error: function (e) {
@@ -73,35 +77,38 @@ function listar() {
     order: [[0, "asc"]],
     // Configuración de idioma
     language: {
-      "sProcessing": "Procesando...",
-      "sLengthMenu": "Mostrar _MENU_ registros",
-      "sZeroRecords": "No se encontraron resultados",
-      "sEmptyTable": "Ningún dato disponible en esta tabla",
-      "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-      "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-      "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-      "sInfoPostFix": "",
-      "sSearch": "Buscar:",
-      "sUrl": "",
-      "sInfoThousands": ",",
-      "sLoadingRecords": "Cargando...",
-      "oPaginate": {
-        "sFirst": "Primero",
-        "sLast": "Último",
-        "sNext": "Siguiente",
-        "sPrevious": "Anterior"
+      sProcessing: "Procesando...",
+      sLengthMenu: "Mostrar _MENU_ registros",
+      sZeroRecords: "No se encontraron resultados",
+      sEmptyTable: "Ningún dato disponible en esta tabla",
+      sInfo:
+        "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+      sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+      sInfoPostFix: "",
+      sSearch: "Buscar:",
+      sUrl: "",
+      sInfoThousands: ",",
+      sLoadingRecords: "Cargando...",
+      oPaginate: {
+        sFirst: "Primero",
+        sLast: "Último",
+        sNext: "Siguiente",
+        sPrevious: "Anterior",
       },
-      "oAria": {
-        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-      }
-    }
+      oAria: {
+        sSortAscending:
+          ": Activar para ordenar la columna de manera ascendente",
+        sSortDescending:
+          ": Activar para ordenar la columna de manera descendente",
+      },
+    },
   });
 }
 
 /**
  * Guardar o editar un producto.
- * 
+ *
  * @param {Event} e - El evento de envío del formulario.
  */
 function guardarEditar(e) {
@@ -158,15 +165,15 @@ function guardarEditar(e) {
           .success("El producto se ha guardado correctamente.")
           .css("background-color", "#28a745")
           .css("color", "white");
-        mostrarFormulario(false);
+        //mostrarFormulario(false);
         tabla.ajax.reload();
-      }else if (data == "okUpdated") {
+      } else if (data == "okUpdated") {
         // Muestra una notificación de éxito.
         toastr
           .success("El producto se ha Actualizo correctamente.")
           .css("background-color", "#28a745")
           .css("color", "white");
-        mostrarFormulario(false);
+        //mostrarFormulario(false);
         tabla.ajax.reload();
       } else {
         // Muestra una notificación de error.
@@ -187,33 +194,53 @@ function guardarEditar(e) {
 
 function mostrar(id) {
   if (id === undefined || id === null || typeof id !== "number") {
-    console.error("Invalid id:");
+    console.error("Invalid id:", id);
     return;
   }
 
   $.post({
-    url: "../ajax/producto.php?op=mostrar",
-    data: { idProducto: id },
+    url: "../ajax/factura.php?op=mostrar",
+    data: { iFactEncabezado: id },
     success: function (response, status, jqXHR) {
+      debugger;
       try {
         var data = JSON.parse(response);
       } catch (e) {
         console.error("Failed to parse response:", e);
         return;
       }
-      console.log("Response:", data);
+      //mostrarFormulario(true);
 
-      mostrarFormulario(true);
+      // Reemplazar los valores en el HTML de la factura
+      document.getElementById('fechaFactura').textContent = data.fecha;
+      document.getElementById('nombre').textContent = data.nombre;
+      document.getElementById('tipoDocumento').textContent = data.tipoDocumento;
+      document.getElementById('documento').textContent = data.documento;
+      document.getElementById('idFactura').textContent = data.idFactura;
+      document.getElementById('subtotal').textContent = data.total;
+      document.getElementById('total').textContent = data.total;
 
-      // Verificar si el input está presente en el DOM
-      console.log($("#descripcion"));
+      // Insertar los detalles de la factura
+      const detallesContainer = document.getElementById('detalles');
+      detallesContainer.innerHTML = ''; // Limpiar contenido previo
 
-      // Asignar valores a los inputs
-      $("#idProducto").val(data.prod_id);
-      $("#descripcion").val(data.prod_descripcion);
-      $("#costo").val(data.prod_costo);
-      $("#unidadMedida").val(data.prod_um);
-      $("#precio").val(data.prod_precio);
+      if (data.detalles && Array.isArray(data.detalles)) {
+        data.detalles.forEach(detalle => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${detalle.idProd}</td>
+            <td>${detalle.descripcion}</td>
+            <td>${detalle.unidadMedida}</td>
+            <td style="text-align: right; padding-right: 3%;">${detalle.precio}</td>
+            <td>${detalle.linea}</td>
+            <td>${detalle.cantidad}</td>
+            <td style="text-align: right; padding-right: 3%;">${detalle.total}</td>
+          `;
+          detallesContainer.appendChild(row);
+        });
+      } else {
+        console.error("Detalles no encontrados o no es un array:", data.detalles);
+      }
     },
     error: function (jqXHR, status, error) {
       console.error("Failed to fetch product data:", error);
@@ -221,8 +248,24 @@ function mostrar(id) {
   });
 }
 
+function imprimirDiv(divId) {
+  var contenido = document.getElementById(divId).innerHTML;
+  var ventanaImpresion = window.open('', '', 'height=600,width=800');
+  ventanaImpresion.document.write('<html><head><title>Factura-Venta-Magnetron</title>');
+  ventanaImpresion.document.write('<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">');
+  ventanaImpresion.document.write('<style>@media print { body * { visibility: hidden; } .invoice, .invoice * { visibility: visible; } .invoice { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 0; border: none; } }</style>');
+  ventanaImpresion.document.write('</head><body>');
+  ventanaImpresion.document.write(contenido);
+  ventanaImpresion.document.write('</body></html>');
+  ventanaImpresion.document.close();
+  ventanaImpresion.focus();
+  ventanaImpresion.print();
+  ventanaImpresion.onafterprint = function() {
+    ventanaImpresion.close();
+  };
+}
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   // Obtener la URL actual
   var currentUrl = window.location.pathname;
 
@@ -230,10 +273,15 @@ document.addEventListener("DOMContentLoaded", function() {
   if (currentUrl.includes("producto.php")) {
     // Agregar clase 'active' al menú principal
     document.getElementById("menu-productos").classList.add("menu-open");
-    document.getElementById("menu-productos").querySelector("a.nav-link").classList.add("active");
+    document
+      .getElementById("menu-productos")
+      .querySelector("a.nav-link")
+      .classList.add("active");
 
     // Agregar clase 'active' al submenú correspondiente
-    document.getElementById("submenu-administrar-productos").classList.add("active");
+    document
+      .getElementById("submenu-administrar-productos")
+      .classList.add("active");
   }
 
   // Contar los elementos de submenú
@@ -243,8 +291,5 @@ document.addEventListener("DOMContentLoaded", function() {
   // Actualizar el contador en el span
   document.getElementById("submenu-count").textContent = submenuCount;
 });
-
-
-
 
 init();

@@ -3071,7 +3071,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   // Obtener la URL actual
   var currentUrl = window.location.pathname;
-  console.log(currentUrl);
+
   // Ruta base de la aplicación
   var iconLink = '/Magnetron/view/';
 
@@ -3100,7 +3100,6 @@ document.addEventListener('DOMContentLoaded', function() {
         parentElement.querySelector('.nav-link').classList.add('active');
       }
     } else if (currentUrl === iconLink) {
-      debugger;
       // Si la URL actual es el icono "/view/"
       var iconElement = document.getElementById('link-inicio'); // Suponiendo que el ID del icono es "link-inicio"
       iconElement.classList.add('active'); // Activar el icono
