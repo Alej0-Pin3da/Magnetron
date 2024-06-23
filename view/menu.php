@@ -80,7 +80,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav-sidebar.html" class="nav-link" id="link-producto-mas-caro">
+                <a href="../view/personaProdMasCaro.php" class="nav-link" id="link-producto-mas-caro">
                   <i class="nav-icon fa-brands fa-web-awesome"></i>
                   <p>Producto Mas Caro</p>
                 </a>

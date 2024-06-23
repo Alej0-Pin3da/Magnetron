@@ -3066,14 +3066,17 @@
   Object.defineProperty(exports, '__esModule', { value: true });
 
 }));
+
 //# sourceMappingURL=adminlte.js.map
 document.addEventListener('DOMContentLoaded', function() {
   // Obtener la URL actual
   var currentUrl = window.location.pathname;
+  console.log(currentUrl);
+  // Ruta base de la aplicación
+  var iconLink = '/Magnetron/view/';
 
   // Lista de enlaces con sus IDs y URLs correspondientes
   var links = [
-    { id: 'link-inicio', url: '/view/' },
     { id: 'link-administrar-productos', url: '/view/producto.php', parentId: 'menu-productos' },
     { id: 'link-cantidad-facturada', url: '/view/productoCantidad.php', parentId: 'menu-productos' },
     { id: 'link-utilidad', url: '/view/productoUtilidad.php', parentId: 'menu-productos' },
@@ -3081,7 +3084,7 @@ document.addEventListener('DOMContentLoaded', function() {
     { id: 'link-personas', url: '#', parentId: 'menu-personas' },
     { id: 'link-administrar-personas', url: '/view/persona.php', parentId: 'menu-personas' },
     { id: 'link-total-facturado', url: '/view/personaFacturado.php', parentId: 'menu-personas' },
-    { id: 'link-producto-mas-caro', url: '/pages/layout/top-nav-sidebar.html', parentId: 'menu-personas' }
+    { id: 'link-producto-mas-caro', url: '/view/personaProdMasCaro.php', parentId: 'menu-personas' }
   ];
 
   // Iterar sobre los enlaces y activar el correspondiente
@@ -3096,6 +3099,11 @@ document.addEventListener('DOMContentLoaded', function() {
         parentElement.classList.add('menu-open');
         parentElement.querySelector('.nav-link').classList.add('active');
       }
+    } else if (currentUrl === iconLink) {
+      debugger;
+      // Si la URL actual es el icono "/view/"
+      var iconElement = document.getElementById('link-inicio'); // Suponiendo que el ID del icono es "link-inicio"
+      iconElement.classList.add('active'); // Activar el icono
     }
   });
 });
