@@ -30,16 +30,18 @@ class productos{
     /**
      * Actualizar un producto en la tabla 'producto'.
      *
-     * @param int $idProducto The ID of the product to update.
-     * @param string $descripcion The new description of the product.
-     * @param float $precio The new selling price of the product.
-     * @param float $costo The new cost of the product.
-     * @param string $unidadMedida The new unit of measurement for the product.
-     * @return mixed The result of executing the SQL query.
+     * @param int $idProducto
+     * @param string $descripcion
+     * @param float $precio
+     * @param float $costo
+     * @param string $unidadMedida
+     * @return mixed 
      */
     public function updateProducto ($idProducto, $descripcion, $precio, $costo, $unidadMedida){
+        // Creación de la consulta SQL para actualizar un producto.
+        // La cláusula SET actualiza los valores de las columnas de la cláusula WHERE.
 
-        // Creacion de la consulta SQL para Acctualizar un producto.
+        // Consulta SQL para actualizar el producto.
         $sql = "UPDATE producto SET 
                     prod_descripcion = '$descripcion', 
                     prod_precio = '$precio', 
@@ -47,29 +49,40 @@ class productos{
                     prod_um = '$unidadMedida' 
                 WHERE prod_id = '$idProducto'";
         
-        // Llamado a la funcion ejecutarConsulta para ejecutar la consulta.
+        // Llamado a la función ejecutarConsulta para ejecutar la consulta SQL.
         return ejecutarConsulta($sql);
     }
 
-    /**
-     * Traer de la tabla 'producto' todos los registros.
-     */
-    public function getProductos(){
-        /// Creacion de la consulta SQL para Acctualizar traer todos los productos.
-        $sql = "SELECT * FROM producto";
-        
-        // Llamado a la funcion ejecutarConsulta para ejecutar la consulta.
-        return ejecutarConsulta($sql);
-    }
 
     /**
      * Traer de la tabla 'productos' todos los registros.
+     *
+     * @return mixed Retorna un array de objetos con los datos de los productos.
+     */
+    public function getProductos()
+    {
+        /// Creacion de la consulta SQL para Acctualizar traer todos los productos.
+        $sql = "SELECT * FROM producto"; // Consulta SQL para traer todos los productos.
+        
+        // Llamado a la funcion ejecutarConsulta para ejecutar la consulta.
+        return ejecutarConsulta($sql);
+    }
+
+   
+    /**
+     * Recupere un solo producto de la tabla 'producto' según su identificación.
+     *
+     * @param int $idProducto
+     * @return mixed
      */
     public function getProductoUnico($idProducto){
-        /// Creacion de la consulta SQL para Acctualizar traer todos los productos.
+        // Creación de la consulta SQL para seleccionar un solo producto de la tabla 'producto'.
+        // La cláusula WHERE restringe la selección al producto con la identificación especificada.
+        
+        // Consulta SQL para recuperar el producto.
         $sql = "SELECT * FROM producto WHERE prod_id = '$idProducto'";
         
-        // Llamado a la funcion ejecutarConsultaunica para ejecutar la consulta.
+        // Llama a la función 'ejecutarConsultaUnica' para ejecutar la consulta SQL y devolver un objeto de una sola fila.
         return ejecutarConsultaUnica($sql);
     }
 }

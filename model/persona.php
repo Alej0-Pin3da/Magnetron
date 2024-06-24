@@ -33,15 +33,15 @@ class persona{
     }
 
     /**
-     * Update a person in the 'persona' table.
+     * Actualizar una persona en la tabla 'persona'.
      *
-     * @param int $idPersona The ID of the person to update.
-     * @param string $nombre The new name of the person.
-     * @param string $apellido The new last name of the person.
-     * @param string $tipoDocumento The new type of document of the person.
-     * @param int $documento The new document of the person.
-     * @return mixed The result of executing the SQL query.
-     * @throws InvalidArgumentException if any of the parameters are empty.
+     * @param int $idPersona
+     * @param string $nombre
+     * @param string $apellido
+     * @param string $tipoDocumento
+     * @param int $documento
+     * @return mixed
+     * @throws InvalidArgumentException
      */
     public function updatePersona ($idPersona, $nombre, $apellido, $tipoDocumento, $documento){
         // Validar que todos los parámetros tengan un valor válidoe
@@ -62,11 +62,16 @@ class persona{
         return ejecutarConsulta($sql);
     }
 
+
     /**
-     * Traer de la tabla 'producto' todos los registros.
+     * Traer todos los registros de la tabla 'persona'.
+     *
+     * @return array Un array asociativo con todos los datos de las personas.
+     *               Si no se encontró ningún registro, se devuelve un array vacío.
      */
     public function getPersonas(){
         /// Creacion de la consulta SQL para Acctualizar traer todos los productos.
+        // La consulta selecciona todos los campos de la tabla 'persona'.
         $sql = "SELECT * FROM persona";
         
         // Llamado a la funcion ejecutarConsulta para ejecutar la consulta.

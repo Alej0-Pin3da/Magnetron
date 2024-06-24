@@ -25,8 +25,8 @@ function mostrarFormulario(x) {
  * @return {void}
  */
 function listar() {
-  // Inicializar DataTable
-  tabla = $("#tblListado").DataTable({
+    // Inicializar DataTable
+    tabla = $("#tblListado").DataTable({
     // Indica que los datos se van a procesar en segundo plano
     aProcessing: true,
     // La recuperación de datos se realiza en el lado del servidor.

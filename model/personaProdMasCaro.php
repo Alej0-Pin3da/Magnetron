@@ -7,14 +7,17 @@ class personaProdMasCaro{
 
     }
 
+
     /**
-     * Ejecutar consulta para traer todos los produ
+     * Recupera de la base de datos el detalle del producto más caro por persona.
+     *
+     * @return array
      */
-    public function getPersonaProdMasCaro(){
-        /// Creacion de la consulta SQL para Acctualizar traer todos los productos.
+    public function getPersonaProdMasCaro() {
+        // Consulta SQL para seleccionar todas las columnas de la vista 'vista_producto_mas_caro'.
         $sql = "SELECT * FROM vista_producto_mas_caro";
         
-        // Llamado a la funcion ejecutarConsulta para ejecutar la consulta.
+        // Llamado a la función 'ejecutarConsulta' para ejecutar la consulta SQL y devolver el resultado.
         return ejecutarConsulta($sql);
     }
 }

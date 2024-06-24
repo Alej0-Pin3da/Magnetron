@@ -185,37 +185,44 @@ function guardarEditar(e) {
   limpiar();
 }
 
+/**
+ * Muestra detalles de un producto según su ID.
+ *
+ * @param {number} id - El ID del producto a mostrar..
+ */
 function mostrar(id) {
+  // Validar el ID
   if (id === undefined || id === null || typeof id !== "number") {
-    console.error("Invalid id:");
+    console.error("Invalid id:", id);
     return;
   }
 
+  // Envíe una solicitud POST al servidor para obtener los detalles del producto.
   $.post({
     url: "../ajax/producto.php?op=mostrar",
     data: { idProducto: id },
     success: function (response, status, jqXHR) {
       try {
+        // Parsear la respuesta como JSON
         var data = JSON.parse(response);
       } catch (e) {
+        // error al parsear la respuesta
         console.error("Failed to parse response:", e);
         return;
       }
-      console.log("Response:", data);
 
+      // Mostrar el formulario de edición
       mostrarFormulario(true);
 
-      // Verificar si el input está presente en el DOM
-      console.log($("#descripcion"));
-
-      // Asignar valores a los inputs
-      $("#idProducto").val(data.prod_id);
-      $("#descripcion").val(data.prod_descripcion);
-      $("#costo").val(data.prod_costo);
-      $("#unidadMedida").val(data.prod_um);
-      $("#precio").val(data.prod_precio);
+      // Actualizar los campos del formulario con los detalles del producto
+      $("#idProducto").val(data.prod_id); // Product ID
+      $("#descripcion").val(data.prod_descripcion); // Product description
+      $("#costo").val(data.prod_costo); // Product cost
+      $("#unidadMedida").val(data.prod_um); // Product unit of measure
+      $("#precio").val(data.prod_precio); // Product price
     },
     error: function (jqXHR, status, error) {
+      // Error al obtener los detalles del producto
       console.error("Failed to fetch product data:", error);
     },
   });

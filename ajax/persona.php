@@ -12,40 +12,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 /**
- * This switch statement handles the different operations for managing Persona data.
+ * Maneje diferentes operaciones según el parámetro 'op'.
  *
  * @throws None
  * @return void
  */
 switch ($_GET["op"]) {
-    /**
-     * This case handles saving or updating a Persona record.
-     */
+    //Manejar guardar o editar una persona
     case 'guardarEditar':
-        // If the ID is empty, a new record is being created.
         if (empty($idPersona)) {
-            // Create a new Persona record.
+            // Crea un nuevo registro de Persona.
             $rspta = $persona->setPpersona($nombre, $apellido, $tipoDocumento, $documento);           
-            // Return a success or error message.
+            // Devuelve un mensaje de éxito o error.
             echo $rspta ? "ok" : "PERSONA NO SE PUDO REGISTRAR";
         } else {
-            // Update an existing Persona record.
+            // Actualiza un registro de Persona.
             $rspta = $persona->updatePersona($idPersona, $nombre, $apellido, $tipoDocumento, $documento);
-            // Return a success or error message.
+            // Devuelve un mensaje de éxito o error.
             echo $rspta ? "okUpdated" : "PERSONA NO SE PUDO ACTUALIZAR";
         }        
-        break;
+    break;
 
-    /**
-     * This case handles retrieving all Persona records and formatting them for the datatable.
-     */
+   // Manejar la lista de facturas
     case 'listar':
-        // Get all Persona records.
+        // Obtenga todos los registros de Persona.
         $rspta = $persona->getPersonas();
-        // Declare an array to hold the formatted data.
+        // Declarar una matriz para contener los datos formateados
         $data = [];
 
-        // Loop through each record and format it for the datatable.
+        // Iterar sobre los resultados de la consulta y agregarlos a la matriz.
         foreach ($rspta as $key => $value) {
             $data[] = [
                 "0" => $value['per_id'],
@@ -56,24 +51,22 @@ switch ($_GET["op"]) {
                 "5" => '<button class="btn btn-warning btn-sm" onclick="mostrar(' . $value['per_id'] . ')"><i class="fa fa-pencil"></i></button>',
             ];
         }   
-        // Prepare the data for the datatable.
+        // Iterar sobre los resultados de la consulta y agregarlos a la matriz.
         $results = [    
             "sEcho"=>1, //Información para el datatables    
             "iTotalRecords"=>count($data), //enviamos el total registros al datatable
             "iTotalDisplayRecords"=>count($data), //enviamos el total registros al datatable
             "aaData"=>$data
         ];
-        // Return the formatted data as JSON.
+        // Ejecutar la respuesta en formato JSON
         echo json_encode($results, JSON_UNESCAPED_UNICODE);
-        break;
+    break;
 
-    /**
-     * This case handles retrieving a single Persona record by ID.
-     */
+    //Manejar mostrar una Persona
     case 'mostrar':
-        // Get the Persona record by ID.
+        // Obtenga el registro de Persona por ID.
         $rspta = $persona->getPersonaUnico($idPersona);
-        // Return the record as JSON.
+        // Ejecutar la respuesta en formato JSON
         echo json_encode($rspta, JSON_UNESCAPED_UNICODE);
-        break;
+    break;
 }

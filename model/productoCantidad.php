@@ -7,14 +7,20 @@ class productoCantidad{
 
     }
 
+
     /**
-     * Ejecutar consulta para traer todos los produ
+     * Recupera toda la información del producto de la base de datos.
+     *
+     * @return array|null
      */
     public function getProductoCantidad(){
-        /// Creacion de la consulta SQL para Acctualizar traer todos los productos.
-        $sql = "SELECT * FROM vista_productos_cantidad_facturada_desc";
+        // Consulta SQL para seleccionar toda la información del producto de la base de datos.
+        $sql = "
+            SELECT * 
+            FROM vista_productos_cantidad_facturada_desc
+        ";
         
-        // Llamado a la funcion ejecutarConsulta para ejecutar la consulta.
+       // Llama a la función ejecutarQuery para ejecutar la consulta SQL y devolver el resultado
         return ejecutarConsulta($sql);
     }
 }

@@ -6,7 +6,7 @@ $personaFacturado = new personaFacturado();
 switch ($_GET["op"]) {
     case 'listar':
         $rspta = $personaFacturado->getPersonaFacturado();
-        //Vamos a declarar un array
+        // Se declara un array para almacenar todos los datos
         $data = [];
 
         foreach ($rspta as $key => $value) {

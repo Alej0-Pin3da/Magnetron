@@ -60,7 +60,7 @@ switch ($_GET["op"]) {
             ];
         }  
 
-        // Procesar los resultados de la consulta
+        // Iterar sobre los resultados de la consulta y agregarlos a la matriz.
         $results = [   
             "sEcho"=>1, // Información para el datatables   
             "iTotalRecords"=>count($data), // enviar el total de registros al datatable

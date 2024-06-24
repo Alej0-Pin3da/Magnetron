@@ -186,33 +186,44 @@ function guardarEditar(e) {
   limpiar();
 }
 
+/**
+ * Muestra los detalles de una persona según su ID.
+ *
+ * @param {number} id - El ID de la persona a mostrar.
+ */
 function mostrar(id) {
+  // Verifica si el ID es válido
   if (id === undefined || id === null || typeof id !== "number") {
     console.error("Invalid id:", id);
     return;
   }
 
+  // Realiza una solicitud POST al servidor para obtener los detalles de la persona
   $.post({
     url: "../ajax/persona.php?op=mostrar",
-    data: { idPersona: id },
+    data: { idPersona: id }, // Envía el ID de la persona a obtener
     success: function (response, status, jqXHR) {
       try {
+        // Parsea la respuesta como JSON
         var data = JSON.parse(response);
       } catch (e) {
+        // Devuelve un console.error si no se pudo analizar la respuesta
         console.error("Error al obtener los datos:", e);
         return;
       }
 
+      // Muestra el formulario con los detalles de la persona
       mostrarFormulario(true);
 
-      // Asignar valores a los inputs
-      $("#idPersona").val(data.per_id);
-      $("#nombre").val(data.per_nombre);
-      $("#apellido").val(data.per_apellido);
-      $("#tipoDocumento").val(data.per_tipodocumento).change(); // Asegurarse de que la opción correcta esté seleccionada
-      $("#documento").val(data.per_documento);
+      // Asigna los valores a los inputs
+      $("#idPersona").val(data.per_id); // ID de la persona
+      $("#nombre").val(data.per_nombre); // Nombre de la persona
+      $("#apellido").val(data.per_apellido); // Apellido de la persona
+      $("#tipoDocumento").val(data.per_tipodocumento).change(); // Selecciona la opción correcta en el select
+      $("#documento").val(data.per_documento); // Documento de la persona
     },
     error: function (jqXHR, status, error) {
+      // Devuelve un console.error si no se pudo obtener la respuesta
       console.error("Error al obtener los datos:", error);
     },
   });
