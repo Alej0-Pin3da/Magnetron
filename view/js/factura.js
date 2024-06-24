@@ -50,6 +50,18 @@ function mostrarModalFacturaNew() {
   $('#modal-crear-factura').modal('show');
 }
 
+function ocultarModalFacturaNew() {
+  $('#modal-crear-factura').modal('hide');
+}
+
+function recargarTabla() {
+  if (tabla) {
+      tabla.ajax.reload(null, false); // false para mantener la página actual
+  } else {
+      console.error('La tabla no está inicializada.');
+  }
+}
+
 /**
  * Initializes the DataTable with the necessary configurations.
  *
@@ -180,16 +192,16 @@ function guardarEditar(e) {
           .success("La Persona se ha guardado correctamente.")
           .css("background-color", "#28a745")
           .css("color", "white");
-        mostrarFormulario(false);
-        tabla.ajax.reload();
+          ocultarModalFacturaNew();
+          recargarTabla();
       } else if (data == "okUpdated") {
         // Muestra una notificación de éxito.
         toastr
           .success("La Persona se ha Actualizo correctamente.")
           .css("background-color", "#28a745")
           .css("color", "white");
-        mostrarFormulario(false);
-        tabla.ajax.reload();
+          ocultarModalFacturaNew();
+          recargarTabla();
       } else {
         // Muestra una notificación de error.
         toastr
