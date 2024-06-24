@@ -196,7 +196,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title" id="facturaModalLabel">Detalles de la Factura</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="limpiar();">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
@@ -234,7 +234,7 @@
               </form>
             </div>
             <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal" onclick="limpiar()">Cerrar</button>
               <button type="submit" class="btn btn-primary" form="facturaForm">Guardar</button>
             </div>
           </div>

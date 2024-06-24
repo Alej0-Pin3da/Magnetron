@@ -1,7 +1,13 @@
 var tabla;
 
+/**
+ * Inicializa la aplicación realizando los siguientes pasos:
+ * - Oculta la etiqueta y tabla de productos.
+ * - Adjunta un detector de eventos de envío al elemento facturaForm, que llama a la función guardarEditar.
+ *
+ * @return {void} .
+ */
 function init() {
-  //mostrarFormulario(false);
   listar();
   $("#label-productos").hide();
   $("#productosTable").hide();
@@ -11,49 +17,53 @@ function init() {
   });
 }
 
+
+/**
+ * Borra el formulario restableciendo todos sus campos.
+ *
+ * @return {void} This function does not return anything.
+ */
 function limpiar() {
-  $("#txtId").val("");
-  $("#txtNombre").val("");
-  $("#txtStock").val("");
-  $("#txtPrecio").val("");
+  // Obtener el elemento del formulario por su ID
+  var formulario = document.getElementById("facturaForm");
+
+  // Restablecer el formulario, borrando todos sus campos
+  formulario.reset();
 }
 
-function mostrarFormulario(x) {
-  limpiar();
-
-  if (x) {
-    $("#listadoProducto").hide();
-    $("#listado").hide();
-    $("#formProducto").show();
-    $("#btnGuardar").prop("disabled", false);
-    $("#btnAgregar").hide();
-  } else {
-    $("#listadoProducto").show();
-    $("#listado").show();
-    $("#formProducto").hide();
-    $("#btnGuardar").prop("disabled", true);
-    $("#btnAgregar").show();
-  }
-}
-
-function cancelarFormulario() {
-  limpiar();
-  //mostrarFormulario(false);
-}
-
-// Function to open the modal and copy the content
+/**
+ * Muestra el modal de facturas.
+ *
+ * @return {void} .
+ */
 function mostrarModalFacturaImp() {
   $('#modal-factura').modal('show');
 }
 
+
+/**
+ * Muestra el modal de para crear facturas.
+ *
+ * @return {void} This function does not return anything.
+ */
 function mostrarModalFacturaNew() {
   $('#modal-crear-factura').modal('show');
 }
 
+/**
+ * Oculta el modal de para crear facturas.
+ *
+ * @return {void} This function does not return anything.
+ */
 function ocultarModalFacturaNew() {
   $('#modal-crear-factura').modal('hide');
 }
 
+
+/**
+ * Recarga la tabla de facturas.
+ * @return {void} This function does not return anything.
+ */
 function recargarTabla() {
   if (tabla) {
       tabla.ajax.reload(null, false); // false para mantener la página actual
@@ -93,7 +103,7 @@ function listar() {
     iDisplayLength: 5,
     // Ordena los datos en orden ascendente por la primera columna.
     order: [[0, "asc"]],
-    // Configuración de idioma
+    // Configuración de idioma para mosrtar en español
     language: {
       sProcessing: "Procesando...",
       sLengthMenu: "Mostrar _MENU_ registros",
@@ -219,26 +229,34 @@ function guardarEditar(e) {
 }
 
 
-
-function mostrar(id) {
-  if (id === undefined || id === null || typeof id !== "number") {
-    console.error("Invalid id:", id);
+/**
+ * Obtiene y muestra los detalles de una factura basandose en el ID.
+ *
+ * @param {number} idFactura - The id of the factura to display.
+ * @returns {void}
+ */
+function mostrar(idFactura) {
+  // Validar el id de la factura
+  if (idFactura === undefined || idFactura === null || typeof idFactura !== "number") {
+    console.error("Id de la Factura no es valido:", idFactura);
     return;
   }
 
+  // Realice una solicitud POST al servidor para obtener los detalles de la factura.
   $.post({
     url: "../ajax/factura.php?op=mostrar",
-    data: { iFactEncabezado: id },
+    data: { iFactEncabezado: idFactura },
     success: function (response, status, jqXHR) {
       try {
+        // Parsea la respuesta como JSON
         var data = JSON.parse(response);
       } catch (e) {
+        // Devuelve un console.error si no se pudo analizar la respuesta
         console.error("Failed to parse response:", e);
         return;
       }
-      //mostrarFormulario(true);
 
-      // Reemplazar los valores en el HTML de la factura
+      // Actualiza el HTML con los detalles de la factura.
       document.getElementById('fechaFactura').textContent = data.fecha;
       document.getElementById('nombre').textContent = data.nombre;
       document.getElementById('tipoDocumento').textContent = data.tipoDocumento;
@@ -247,11 +265,12 @@ function mostrar(id) {
       document.getElementById('subtotal').textContent = data.total;
       document.getElementById('total').textContent = data.total;
 
-      // Insertar los detalles de la factura
+      // Inserta los detalles de la factura en el HTML.
       const detallesContainer = document.getElementById('detalles');
-      detallesContainer.innerHTML = ''; // Limpiar contenido previo
+      detallesContainer.innerHTML = ''; // Borrar contenido anterior
 
       if (data.detalles && Array.isArray(data.detalles)) {
+        // Itera sobre los detalles de los productos y cree una fila de tabla para cada uno
         data.detalles.forEach(detalle => {
           const row = document.createElement('tr');
           row.innerHTML = `
@@ -266,18 +285,30 @@ function mostrar(id) {
           detallesContainer.appendChild(row);
         });
       } else {
+        // Devuelve un console.error si no se encontró o no era un array
         console.error("Detalles no encontrados o no es un array:", data.detalles);
       }
     },
     error: function (jqXHR, status, error) {
-      console.error("Failed to fetch product data:", error);
+      // Devuelve un console.error si no se pudo obtener la respuesta
+      console.error("No se pudieron recuperar los datos del producto:", error);
     },
   });
 }
 
+/**
+ * Imprime el contenido de un elemento HTML en una nueva ventana.
+ * 
+ * @param {string} divId - El ID del elemento HTML que se desea imprimir.
+ */
 function imprimirDiv(divId) {
+  // Obtiene el contenido del elemento HTML especificado.
   var contenido = document.getElementById(divId).innerHTML;
+
+  // Abre una nueva ventana con tamaño especificado.
   var ventanaImpresion = window.open('', '', 'height=600,width=800');
+
+  // Escribe el contenido en la ventana de impresión.
   ventanaImpresion.document.write('<html><head><title>Factura-Venta-Magnetron</title>');
   ventanaImpresion.document.write('<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">');
   ventanaImpresion.document.write('<style>@media print { body * { visibility: hidden; } .invoice, .invoice * { visibility: visible; } .invoice { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 0; border: none; } }</style>');
@@ -285,38 +316,71 @@ function imprimirDiv(divId) {
   ventanaImpresion.document.write(contenido);
   ventanaImpresion.document.write('</body></html>');
   ventanaImpresion.document.close();
+
+  // Fija el foco en la ventana de impresión y realiza la impresión.
   ventanaImpresion.focus();
   ventanaImpresion.print();
+
+  // Cierra la ventana de impresión después de imprimir.
   ventanaImpresion.onafterprint = function() {
     ventanaImpresion.close();
   };
 }
 
+/**
+ * Elimina una fila de productos de la tabla y actualiza los números de línea.
+ *
+ * @param {HTMLElement} button
+ */
 function eliminarProducto(button) {
+  // Se obtiene la fila principal del botón
   const row = button.parentNode.parentNode;
+
+  // Elimina la final de la tabla
   row.remove();
-  actualizarLineas();
+
+  // Actualiza los índices de las filas
+  actualizarNumeroProducto();
 }
 
-function actualizarLineas() {
+/**
+ * Actualiza los números de línea de las filas de productos en la tabla.
+ * Los números de línea se actualizan en base a la posición de la fila en la tabla.
+ */
+function actualizarNumeroProducto() {
+  // Obtener todas las filas en el cuerpo de la tabla de productos
   const filas = document.querySelectorAll('#productosBody tr');
+
+  // Iterar sobre cada fila y actualizar el número de línea
   filas.forEach((fila, index) => {
-    fila.children[0].textContent = index + 1;
+    // Actualizar el texto del primer elemento de la fila (contiene el número de línea)
+    fila.children[0].textContent = index + 1; // Índice de la fila + 1, ya que los índices comienzan en 0
   });
 }
 
+/**
+ * Carga las opciones de selección de clientes en el elemento HTML con el id 'idCliente'
+ *
+ * Primero, verifica si el elemento ya tiene opciones. Si lo tiene, no realiza ninguna acción.
+ * Si no tiene opciones, realiza una solicitud AJAX a la URL '../ajax/factura.php?op=listarClientes'
+ * para obtener los datos de los clientes y agregar las opciones correspondientes al elemento.
+ *
+ * @returns {void}
+ */
 function cargarClientes() {
   var clienteSelect = document.getElementById('idCliente');
   // Verificar si el select ya tiene opciones además de la opción por defecto
   if (clienteSelect.length > 1) {
     return; // Si ya tiene opciones, no hacer nada
   }
+
+  // Realizar una solicitud AJAX para obtener los datos de los clientes
   $.ajax({
     url: '../ajax/factura.php?op=listarClientes',
     type: 'GET',
     dataType: 'json',
     success: function(data) {
-      var clienteSelect = document.getElementById('idCliente');
+      // Crear las opciones correspondientes a cada cliente
       data.forEach(function(cliente) {
         var option = document.createElement('option');
         option.value = cliente.per_id;
@@ -330,21 +394,30 @@ function cargarClientes() {
   });
 }
 
+/**
+ * Carga las opciones de selección de productos en el elemento HTML con el id 'idProducto'
+ *
+ * Primero, realiza una solicitud AJAX a la URL '../ajax/factura.php?op=listarProductos'
+ * para obtener los datos de los productos y agregar las opciones correspondientes al elemento.
+ *
+ * @param {HTMLElement} selectElement - El elemento select en el que se cargarán las opciones
+ * @returns {void}
+ */
 function cargarProducto(selectElement) {
+  // Realizar una solicitud AJAX para obtener los datos de los productos
   $.ajax({
     url: '../ajax/factura.php?op=listarProductos',
     type: 'GET',
     dataType: 'json',
     success: function(data) {
-      var productoSelect = document.getElementById('idProducto');
+      // Crear las opciones correspondientes a cada producto
       data.forEach(function(producto) {
-        debugger
-        var option = document.createElement('option');
-        option.value = producto.prod_id;
-        option.textContent = producto.prod_descripcion;
-        option.dataset.unidadMedida = producto.prod_um;
-        option.dataset.precio = producto.prod_precio;
-        productoSelect.appendChild(option);
+        var option = document.createElement('option'); // Crear una nueva opción
+        option.value = producto.prod_id; // Establecer el valor de la opción
+        option.textContent = producto.prod_descripcion; // Establecer el texto de la opción
+        option.dataset.unidadMedida = producto.prod_um; // Almacenar la unidad de medida en los atributos de datos
+        option.dataset.precio = producto.prod_precio; // Almacenar el precio en los atributos de datos
+        selectElement.appendChild(option); // Agregar la opción al elemento select
       });
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -353,17 +426,28 @@ function cargarProducto(selectElement) {
   });
 }
 
+/**
+ * Agrega una nueva fila a la tabla de productos con los campos necesarios.
+ *
+ * @returns {void}
+ */
 function agregarProducto() {
+  // Mostrar la etiqueta y la tabla de productos
   $("#label-productos").show();
   $("#productosTable").show();
+
+  // Obtener el cuerpo de la tabla de productos
   const productosBody = document.getElementById('productosBody');
   if (!productosBody) {
     console.error('productosBody no existe');
     return;
   }
-  const row = document.createElement('tr');
-  const linea = productosBody.children.length + 1;
 
+  // Crear una nueva fila para el producto
+  const linea = productosBody.children.length + 1;
+  const row = document.createElement('tr');
+
+  // Establecer el contenido de la fila
   row.innerHTML = `
     <td>${linea}</td>
     <td>
@@ -384,7 +468,10 @@ function agregarProducto() {
     <td><button type="button" class="btn btn-danger btn-sm" onclick="eliminarProducto(this)">Eliminar</button></td>
   `;
 
+  // Agregar la nueva fila a la tabla de productos
   productosBody.appendChild(row);
+
+  // Obtener el elemento select del producto y cargar los datos
   const selectElement = row.querySelector('select[name="producto[]"]');
   if (selectElement) {
     cargarProducto(selectElement);
@@ -393,42 +480,59 @@ function agregarProducto() {
   }
 }
 
+/**
+ * Carga las opciones de selección de productos en el elemento selectElement.
+ * @param {HTMLElement} selectElement - El elemento select en el que se cargarán las opciones
+ */
 function cargarProducto(selectElement) {
-  console.log('selectElement:', selectElement); // Verificar el valor de selectElement
+  // Realizar una solicitud AJAX para obtener los datos de los productos
   $.ajax({
     url: '../ajax/factura.php?op=listarProductos',
     type: 'GET',
     dataType: 'json',
     success: function(data) {
+      // Crear las opciones correspondientes a cada producto
       data.forEach(function(producto) {
         var option = document.createElement('option');
         option.value = producto.prod_id;
         option.textContent = producto.prod_descripcion;
         option.dataset.unidadMedida = producto.prod_um;
         option.dataset.precio = producto.prod_precio;
+        // Agregar la opción al elemento select
         if (selectElement) {
           selectElement.appendChild(option);
         } else {
+          // Mostrar un error si selectElement es undefined
           console.error('selectElement es undefined');
         }
       });
     },
     error: function(jqXHR, textStatus, errorThrown) {
+      // Mostrar un error si ocurre un error al cargar los productos
       console.error('Error al cargar los productos:', textStatus, errorThrown);
     }
   });
 }
 
+/**
+ * Carga los datos del producto seleccionado en los campos correspondientes.
+ * @param {HTMLElement} selectElement - El elemento select del producto seleccionado.
+ */
 function cargarDatosProducto(selectElement) {
+  // Obtener la opción seleccionada y sus datos
   const selectedOption = selectElement.options[selectElement.selectedIndex];
   const unidadMedida = selectedOption.dataset.unidadMedida;
   const precio = selectedOption.dataset.precio;
-  const row = selectElement.closest('tr');
-  const unidadMedidaInput = row.querySelector('input[name="unidadMedida[]"]');
-  const precioInput = row.querySelector('input[name="precio[]"]');
+
+  // Obtener la fila de la tabla y los campos correspondientes
+  const row = selectElement.closest('tr'); // Obtiene el elemento tr más cercano al select
+  const unidadMedidaInput = row.querySelector('input[name="unidadMedida[]"]'); // Obtiene el input de la unidad de medida
+  const precioInput = row.querySelector('input[name="precio[]"]'); // Obtiene el input del precio
+
+  // Asignar los valores a los campos correspondientes
   unidadMedidaInput.value = unidadMedida;
   precioInput.value = precio;
 }
 
-
+// Llamar a la función init() para iniciar el código
 init();
