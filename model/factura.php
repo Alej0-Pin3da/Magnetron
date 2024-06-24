@@ -76,4 +76,23 @@ class factura{
         // Llamado a la funcion ejecutarConsultaunica para ejecutar la consulta.
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+
+    public function getClientes(){
+        /// Creacion de la consulta SQL para Acctualizar traer todos los productos.
+        $sql = "SELECT * FROM persona";
+        
+        $result = ejecutarConsulta($sql);
+        // Llamado a la funcion ejecutarConsultaunica para ejecutar la consulta.
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getProductos(){
+        /// Creacion de la consulta SQL para Acctualizar traer todos los productos.
+        $sql = "SELECT * FROM producto";
+        
+        $result = ejecutarConsulta($sql);
+        // Llamado a la funcion ejecutarConsultaunica para ejecutar la consulta.
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
 }

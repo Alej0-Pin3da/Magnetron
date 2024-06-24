@@ -33,7 +33,7 @@ switch ($_GET["op"]) {
                     "1" => $value['per_nombre']." ".$value['per_apellido'],  
                     "2" => $value['total_cantidad'],
                     "3" => formatCurrency($value['total_venta']),
-                    "4" => '<button class="btn btn-warning btn-sm" onclick="mostrar(' . $value['fenc_id'] . '); mostrarModal();"><i class="fa fa-pencil"></i></button>',
+                    "4" => '<button class="btn btn-warning btn-sm" onclick="mostrar(' . $value['fenc_id'] . '); mostrarModalFacturaImp();"><i class="fa fa-pencil"></i></button>',
                 ];
             }   
             $results = [    
@@ -84,6 +84,14 @@ switch ($_GET["op"]) {
             // Enviar la respuesta
             echo json_encode($response, JSON_UNESCAPED_UNICODE);
             break;
+        case 'listarClientes':
+            $rspta = $factura->getClientes();
+            echo json_encode($rspta, JSON_UNESCAPED_UNICODE);
+            break;
+        case 'listarProductos':
+                $rspta = $factura->getProductos();
+                echo json_encode($rspta, JSON_UNESCAPED_UNICODE);
+                break;
     }
 
 function formatCurrency($value) {

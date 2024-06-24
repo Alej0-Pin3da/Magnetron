@@ -44,7 +44,7 @@
               <div class="card">
                 <div class="card-header">
                   <div class="box-header">
-                    <button class="btn btn-success" id="btnAgregar" onclick="mostrarFormulario(true)">
+                    <button class="btn btn-success" id="btnAgregar" onclick="mostrarModalFacturaNew(true)">
                       <i class="fa fa-plus-circle"></i>
                       Agregar
                     </button>
@@ -73,8 +73,7 @@
       </section>
       <!-- /.content -->
 
-
-
+      <!-- MODAL Factura-->
       <div class="modal fade" id="modal-factura">
         <div class="modal-dialog modal-xl">
           <div class="modal-content">
@@ -190,6 +189,57 @@
           </div>
         </div>
       </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="modal-crear-factura" >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="facturaModalLabel">Detalles de la Factura</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="facturaForm">
+                <div class="mb-3">
+                  <label for="cliente" class="form-label">Identificación de Persona</label>
+                  <select class="form-control" id="idCliente" name="idCliente" required onclick="cargarClientes()">
+                    <option value="">Seleccione un cliente</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="productos" class="form-label" id="label-productos">Detalle de lo Facturado</label>
+                  <table class="table table-bordered" id="productosTable">
+                    <thead>
+                      <tr>
+                        <th>Línea</th>
+                        <th>Cantidad</th>
+                        <th>Descripción</th>
+                        <th>Unidad de Medida</th>
+                        <th>Precio</th>
+                        <th>Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody id="productosBody">
+                      <!-- Filas de productos se agregarán aquí dinámicamente -->
+                    </tbody>
+                  </table>
+                  <button class="btn btn-success" id="btnAgregar" onclick="agregarProducto(true)">
+                      <i class="fa fa-plus-circle"></i>
+                      Agregar
+                  </button>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+              <button type="submit" class="btn btn-primary" form="facturaForm">Guardar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
 
     </div>
 

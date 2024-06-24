@@ -3,8 +3,10 @@ var tabla;
 function init() {
   //mostrarFormulario(false);
   listar();
+  $("#label-productos").hide();
+  $("#productosTable").hide();
 
-  $("#formProducto").on("submit", function (e) {
+  $("#facturaForm").on("submit", function (e) {
     guardarEditar(e);
   });
 }
@@ -40,8 +42,12 @@ function cancelarFormulario() {
 }
 
 // Function to open the modal and copy the content
-function mostrarModal() {
+function mostrarModalFacturaImp() {
   $('#modal-factura').modal('show');
+}
+
+function mostrarModalFacturaNew() {
+  $('#modal-crear-factura').modal('show');
 }
 
 /**
@@ -117,11 +123,29 @@ function guardarEditar(e) {
   debugger;
 
   // Obtiene los valores de los campos del formulario.
-  var descripcion = $("#descripcion").val();
-  var precio = $("#precio").val();
-  var costo = $("#costo").val();
-  var unidadMedida = $("#unidadMedida").val();
-  var idProducto = $("#idProducto").val();
+  var nombre = $("#nombre").val();
+  var apellido = $("#apellido").val();
+  var tipoDocumento = $("#tipoDocumento").val();
+  var documento = $("#documento").val();
+  var idPersona = $("#idPersona").val();
+
+  // Obtiene los valores de los productos agregados dinámicamente.
+  var productos = [];
+  $("#productosBody tr").each(function() {
+    var cantidad = $(this).find("input[name='cantidad[]']").val();
+    var producto = $(this).find("input[name='producto[]']").val();
+    var unidadMedida = $(this).find("input[name='unidadMedida[]']").val();
+    var precio = $(this).find("input[name='precio[]']").val();
+    var descripcion = $(this).find("input[name='descripcion[]']").val();
+
+    productos.push({
+      cantidad: cantidad,
+      producto: producto,
+      unidadMedida: unidadMedida,
+      precio: precio,
+      descripcion: descripcion
+    });
+  });
 
   // Configuración de Toastr.
   toastr.options = {
@@ -144,46 +168,47 @@ function guardarEditar(e) {
 
   // Crea un objeto FormData para enviar los datos del formulario.
   var formData = {
-    descripcion: descripcion,
-    precio: precio,
-    costo: costo,
-    unidadMedida: unidadMedida,
-    idProducto: idProducto,
+    nombre: nombre,
+    apellido: apellido,
+    tipoDocumento: tipoDocumento,
+    documento: documento,
+    idPersona: idPersona,
+    productos: productos
   };
 
-  // Envía una solicitud AJAX para guardar o editar el producto.
+  // Envía una solicitud AJAX para guardar o editar la factura.
   $.ajax({
-    url: "../ajax/producto.php?op=guardarEditar",
+    url: "../ajax/persona.php?op=guardarEditar",
     type: "POST",
-    data: formData,
+    data: JSON.stringify(formData),
+    contentType: "application/json",
     success: function (data) {
       debugger;
       $("#btnGuardar").prop("disabled", false);
       if (data == "ok") {
         // Muestra una notificación de éxito.
         toastr
-          .success("El producto se ha guardado correctamente.")
+          .success("La Persona se ha guardado correctamente.")
           .css("background-color", "#28a745")
           .css("color", "white");
-        //mostrarFormulario(false);
+        mostrarFormulario(false);
         tabla.ajax.reload();
       } else if (data == "okUpdated") {
         // Muestra una notificación de éxito.
         toastr
-          .success("El producto se ha Actualizo correctamente.")
+          .success("La Persona se ha Actualizo correctamente.")
           .css("background-color", "#28a745")
           .css("color", "white");
-        //mostrarFormulario(false);
+        mostrarFormulario(false);
         tabla.ajax.reload();
       } else {
         // Muestra una notificación de error.
         toastr
-          .error("Hubo un problema al guardar el producto.")
+          .error("Hubo un problema al guardar la Persona.")
           .css("background-color", "#dc3545")
           .css("color", "white");
       }
     },
-
     error: function (e) {
       console.log(e.responseText);
     },
@@ -191,6 +216,8 @@ function guardarEditar(e) {
 
   limpiar();
 }
+
+
 
 function mostrar(id) {
   if (id === undefined || id === null || typeof id !== "number") {
@@ -202,7 +229,6 @@ function mostrar(id) {
     url: "../ajax/factura.php?op=mostrar",
     data: { iFactEncabezado: id },
     success: function (response, status, jqXHR) {
-      debugger;
       try {
         var data = JSON.parse(response);
       } catch (e) {
@@ -265,31 +291,135 @@ function imprimirDiv(divId) {
   };
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  // Obtener la URL actual
-  var currentUrl = window.location.pathname;
+function eliminarProducto(button) {
+  const row = button.parentNode.parentNode;
+  row.remove();
+  actualizarLineas();
+}
 
-  // Verificar si la URL contiene 'producto.php'
-  if (currentUrl.includes("producto.php")) {
-    // Agregar clase 'active' al menú principal
-    document.getElementById("menu-productos").classList.add("menu-open");
-    document
-      .getElementById("menu-productos")
-      .querySelector("a.nav-link")
-      .classList.add("active");
+function actualizarLineas() {
+  const filas = document.querySelectorAll('#productosBody tr');
+  filas.forEach((fila, index) => {
+    fila.children[0].textContent = index + 1;
+  });
+}
 
-    // Agregar clase 'active' al submenú correspondiente
-    document
-      .getElementById("submenu-administrar-productos")
-      .classList.add("active");
+function cargarClientes() {
+  var clienteSelect = document.getElementById('idCliente');
+  // Verificar si el select ya tiene opciones además de la opción por defecto
+  if (clienteSelect.length > 1) {
+    return; // Si ya tiene opciones, no hacer nada
   }
+  $.ajax({
+    url: '../ajax/factura.php?op=listarClientes',
+    type: 'GET',
+    dataType: 'json',
+    success: function(data) {
+      var clienteSelect = document.getElementById('idCliente');
+      data.forEach(function(cliente) {
+        var option = document.createElement('option');
+        option.value = cliente.per_id;
+        option.textContent = cliente.per_nombre + ' ' + cliente.per_apellido + ' - ' + cliente.per_tipodocumento + ' ' + cliente.per_documento;
+        clienteSelect.appendChild(option);
+      });
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      console.error('Error al cargar los clientes:', textStatus, errorThrown);
+    }
+  });
+}
 
-  // Contar los elementos de submenú
-  var submenuList = document.getElementById("submenu-list");
-  var submenuCount = submenuList.getElementsByClassName("nav-item").length;
+function cargarProducto(selectElement) {
+  $.ajax({
+    url: '../ajax/factura.php?op=listarProductos',
+    type: 'GET',
+    dataType: 'json',
+    success: function(data) {
+      data.forEach(function(producto) {
+        debugger
+        var option = document.createElement('option');
+        option.value = producto.prod_id;
+        option.textContent = producto.prod_descripcion;
+        option.dataset.unidadMedida = producto.prod_um;
+        option.dataset.precio = producto.prod_precio;
+        selectElement.appendChild(option);
+      });
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      console.error('Error al cargar los productos:', textStatus, errorThrown);
+    }
+  });
+}
 
-  // Actualizar el contador en el span
-  document.getElementById("submenu-count").textContent = submenuCount;
-});
+function agregarProducto() {
+  $("#label-productos").show();
+  $("#productosTable").show();
+  const productosBody = document.getElementById('productosBody');
+  if (!productosBody) {
+    console.error('productosBody no existe');
+    return;
+  }
+  const row = document.createElement('tr');
+  const linea = productosBody.children.length + 1;
+
+  row.innerHTML = `
+    <td>${linea}</td>
+    <td><input type="number" class="form-control" name="cantidad[]" required></td>
+    <td>
+      <select class="form-control" name="producto[]" required onchange="cargarDatosProducto(this)">
+        <option value="">Seleccione un producto</option>
+      </select>
+    </td>
+    <td><input type="text" class="form-control" name="unidadMedida[]" required disabled></td>
+    <td><input type="number" class="form-control" name="precio[]" required disabled></td>
+    <td><button type="button" class="btn btn-danger btn-sm" onclick="eliminarProducto(this)">Eliminar</button></td>
+  `;
+
+  productosBody.appendChild(row);
+  const selectElement = row.querySelector('select[name="producto[]"]');
+  if (selectElement) {
+    cargarProducto(selectElement);
+  } else {
+    console.error('selectElement no encontrado');
+  }
+}
+
+function cargarProducto(selectElement) {
+  console.log('selectElement:', selectElement); // Verificar el valor de selectElement
+  $.ajax({
+    url: '../ajax/factura.php?op=listarProductos',
+    type: 'GET',
+    dataType: 'json',
+    success: function(data) {
+      data.forEach(function(producto) {
+        var option = document.createElement('option');
+        option.value = producto.prod_id;
+        option.textContent = producto.prod_descripcion;
+        option.dataset.unidadMedida = producto.prod_um;
+        option.dataset.precio = producto.prod_precio;
+        if (selectElement) {
+          selectElement.appendChild(option);
+        } else {
+          console.error('selectElement es undefined');
+        }
+      });
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      console.error('Error al cargar los productos:', textStatus, errorThrown);
+    }
+  });
+}
+
+function cargarDatosProducto(selectElement) {
+  const selectedOption = selectElement.options[selectElement.selectedIndex];
+  const unidadMedida = selectedOption.dataset.unidadMedida;
+  const precio = selectedOption.dataset.precio;
+  const row = selectElement.closest('tr');
+  const unidadMedidaInput = row.querySelector('input[name="unidadMedida[]"]');
+  const precioInput = row.querySelector('input[name="precio[]"]');
+  unidadMedidaInput.value = unidadMedida;
+  precioInput.value = precio;
+}
+
 
 init();
