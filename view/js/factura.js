@@ -142,7 +142,6 @@ function listar() {
 function guardarEditar(e) {
   e.preventDefault(); // Previene el comportamiento predeterminado del formulario.
   $("#btnGuardar").prop("disabled", true);
-  debugger;
 
   // Obtiene los valores de los campos del formulario.
   var idCliente = $("#idCliente").val();
@@ -194,7 +193,6 @@ function guardarEditar(e) {
     data: JSON.stringify(formData),
     contentType: "application/json",
     success: function (data) {
-      debugger;
       $("#btnGuardar").prop("disabled", false);
       if (data == "ok") {
         // Muestra una notificación de éxito.
