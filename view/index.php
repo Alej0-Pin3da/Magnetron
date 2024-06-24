@@ -190,7 +190,7 @@
         </div>
       </div>
 
-      <!-- Modal -->
+      <!-- Modal para Crear Factura -->
       <div class="modal fade" id="modal-crear-factura" >
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
