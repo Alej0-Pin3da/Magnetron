@@ -32,10 +32,6 @@
 - [Usage](#usage)
 - [Getting Started](#getting_started)
 - [Code Examples](#code_examples)
-- [Built Using](#built_using)
-- [Contributing](#contributing)
-- [Authors](#authors)
-- [Acknowledgements](#acknowledgements)
 
 ## 🧐 About <a name = "about"></a>
 
