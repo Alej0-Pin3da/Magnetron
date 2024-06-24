@@ -73,12 +73,12 @@
       </section>
       <!-- /.content -->
 
-      <!-- MODAL Factura-->
+      <!-- MODAL Factura Imprimir-->
       <div class="modal fade" id="modal-factura">
         <div class="modal-dialog modal-xl">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Factura</h4>
+              <h4 class="modal-title">Imprimir Factura</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -213,6 +213,7 @@
                   <table class="table table-bordered" id="productosTable">
                     <thead>
                       <tr>
+                        <th>No.</th>
                         <th>Línea</th>
                         <th>Cantidad</th>
                         <th>Descripción</th>

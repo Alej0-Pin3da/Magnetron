@@ -123,27 +123,19 @@ function guardarEditar(e) {
   debugger;
 
   // Obtiene los valores de los campos del formulario.
-  var nombre = $("#nombre").val();
-  var apellido = $("#apellido").val();
-  var tipoDocumento = $("#tipoDocumento").val();
-  var documento = $("#documento").val();
-  var idPersona = $("#idPersona").val();
+  var idCliente = $("#idCliente").val();
 
   // Obtiene los valores de los productos agregados dinámicamente.
   var productos = [];
   $("#productosBody tr").each(function() {
     var cantidad = $(this).find("input[name='cantidad[]']").val();
-    var producto = $(this).find("input[name='producto[]']").val();
-    var unidadMedida = $(this).find("input[name='unidadMedida[]']").val();
-    var precio = $(this).find("input[name='precio[]']").val();
-    var descripcion = $(this).find("input[name='descripcion[]']").val();
+    var idProducto = $(this).find("select[name='producto[]']").val();
+    var linea = $(this).find("select[name='linea[]']").val();
 
     productos.push({
       cantidad: cantidad,
-      producto: producto,
-      unidadMedida: unidadMedida,
-      precio: precio,
-      descripcion: descripcion
+      idProducto: idProducto,
+      linea: linea
     });
   });
 
@@ -168,17 +160,14 @@ function guardarEditar(e) {
 
   // Crea un objeto FormData para enviar los datos del formulario.
   var formData = {
-    nombre: nombre,
-    apellido: apellido,
-    tipoDocumento: tipoDocumento,
-    documento: documento,
-    idPersona: idPersona,
+    idCliente: idCliente,
+    linea: linea,
     productos: productos
   };
 
   // Envía una solicitud AJAX para guardar o editar la factura.
   $.ajax({
-    url: "../ajax/persona.php?op=guardarEditar",
+    url: "../ajax/factura.php?op=guardarEditar",
     type: "POST",
     data: JSON.stringify(formData),
     contentType: "application/json",
@@ -335,6 +324,7 @@ function cargarProducto(selectElement) {
     type: 'GET',
     dataType: 'json',
     success: function(data) {
+      var productoSelect = document.getElementById('idProducto');
       data.forEach(function(producto) {
         debugger
         var option = document.createElement('option');
@@ -342,7 +332,7 @@ function cargarProducto(selectElement) {
         option.textContent = producto.prod_descripcion;
         option.dataset.unidadMedida = producto.prod_um;
         option.dataset.precio = producto.prod_precio;
-        selectElement.appendChild(option);
+        productoSelect.appendChild(option);
       });
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -364,14 +354,21 @@ function agregarProducto() {
 
   row.innerHTML = `
     <td>${linea}</td>
-    <td><input type="number" class="form-control" name="cantidad[]" required></td>
     <td>
-      <select class="form-control" name="producto[]" required onchange="cargarDatosProducto(this)">
+      <select class="form-control" id="linea" name="linea[]" required onclick="cargarClientes()">
+        <option value="" disabled selected>Seleccione una linea</option>
+        <option value="normal">Normal</option>
+        <option value="premium">Premium</option>
+      </select>
+    </td>
+    <td><input type="number" class="form-control" name="cantidad[]" id="cantidad" required></td>
+    <td>
+      <select class="form-control" id="producto" name="producto[]" required onchange="cargarDatosProducto(this)">
         <option value="">Seleccione un producto</option>
       </select>
     </td>
-    <td><input type="text" class="form-control" name="unidadMedida[]" required disabled></td>
-    <td><input type="number" class="form-control" name="precio[]" required disabled></td>
+    <td><input type="text" class="form-control" name="unidadMedida[]" id="unidadMedida" required disabled></td>
+    <td><input type="number" class="form-control" name="precio[]" id="precio" required disabled></td>
     <td><button type="button" class="btn btn-danger btn-sm" onclick="eliminarProducto(this)">Eliminar</button></td>
   `;
 

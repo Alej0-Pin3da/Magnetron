@@ -15,16 +15,73 @@ class factura{
      * @param float $costo Costo del Producto.
      * @param string $unidadMedida Unidad de medida del Producto.
      */
-    public function setFactura($factDetalleLinea, $factDetalleCantidad, $idProducto, $factEncabNumero, $facatEncabFecha, $idPersona)
-    {
+    public function setFacturaEncabezado($idCliente){
+        $lastNumero = $this->getUltimofactNumero();
+        $lastNumero = $lastNumero + 1;
+        $fechaActual = date('Y-m-d');
         // Creacion de la consulta SQL para insertar un nuevo producto.
-        /*$sql = "INSERT 
-                    INTO producto (prod_descripcion, prod_precio, prod_costo, prod_um)
-                VALUES ('$descripcion', '$precio', '$costo', '$unidadMedida')";
+        $sql = "INSERT 
+                    INTO fact_encabezado (fenc_numero, fenc_fecha, zper_id)
+                VALUES ('$lastNumero', '$fechaActual', '$idCliente')";
 
         // Llamado a la funcion ejecutarConsulta para ejecutar la consulta.
-        return ejecutarConsulta($sql);*/
+        $insertEncabezado = ejecutarConsulta($sql);
+
+        if ($insertEncabezado) {
+            return $insertEncabezado;
+        } else {
+            return false;
+        }
     }
+
+    public function setFacturaDetalle($productos){
+        $lastEncfactId = $this->getUltimoEncFacId();
+        // Creacion de la consulta SQL para insertar un nuevo producto.
+        foreach ($productos as $producto) {
+            $cantidad = isset($producto['cantidad']) ? limpiarCadena($producto['cantidad']) : "";
+            $idProducto = isset($producto['idProducto']) ? limpiarCadena($producto['idProducto']) : "";
+            $linea = isset($producto['linea']) ? limpiarCadena($producto['linea']) : "";
+    
+            $sql = "INSERT 
+                        INTO fact_detalle (fdet_linea, fdet_cantidad, zprod_id, zfenc_id)
+                    VALUES ('$linea', '$cantidad', '$idProducto', '$lastEncfactId')";
+            $insertDet = ejecutarConsulta($sql);
+        }
+
+        if($insertDet){
+            return "ok";
+        } else {
+            return false;
+        }
+
+    }
+
+    public function getUltimofactNumero() {
+        $sql = "SELECT MAX(fenc_numero) AS lastNumero FROM fact_encabezado";
+        $result = ejecutarConsulta($sql);
+        
+        // Verificar si la consulta devolvió algún resultado
+        if ($result) {
+            $row = $result->fetch_assoc();
+            return $row['lastNumero'];
+        } else {
+            return null; // O algún valor por defecto en caso de error
+        }
+    }
+
+    public function getUltimoEncFacId() {
+        $sql = "SELECT MAX(fenc_id) AS lastNumero FROM fact_encabezado";
+        $result = ejecutarConsulta($sql);
+        
+        // Verificar si la consulta devolvió algún resultado
+        if ($result) {
+            $row = $result->fetch_assoc();
+            return $row['lastNumero'];
+        } else {
+            return null; // O algún valor por defecto en caso de error
+        }
+    }
+    
 
     /**
      * Actualizar un producto en la tabla 'producto'.
@@ -62,7 +119,7 @@ class factura{
         }
         $result = ejecutarConsulta($sql);
         // Llamado a la funcion ejecutarConsultaunica para ejecutar la consulta.
-        return $result->fetch_all(MYSQLI_ASSOC);;
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     /**

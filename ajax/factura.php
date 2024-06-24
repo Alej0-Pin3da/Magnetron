@@ -4,18 +4,30 @@ require_once "../model/factura.php";
 $factura = new factura();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $idProducto = isset($_POST['idProducto']) ? limpiarCadena($_POST['idProducto']) : "";
-    $descripcion = isset($_POST['descripcion']) ? limpiarCadena($_POST['descripcion']) : "";
-    $precio = isset($_POST["precio"]) ? limpiarCadena($_POST["precio"]) : "";
-    $costo = isset($_POST["costo"]) ? limpiarCadena($_POST["costo"]) : "";
-    $unidadMedida = isset($_POST["unidadMedida"]) ? limpiarCadena($_POST["unidadMedida"]) : "";
+    // Decodificar el JSON recibido
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    // Encabezado
+    $idCliente = isset($data['idCliente']) ? limpiarCadena($data['idCliente']) : "";
+
+    // Detalle
+    $productos = isset($data['productos']) ? $data['productos'] : [];
+
+    foreach ($productos as $producto) {
+        $cantidad = isset($producto['cantidad']) ? limpiarCadena($producto['cantidad']) : "";
+        $idProducto = isset($producto['idProducto']) ? limpiarCadena($producto['idProducto']) : "";
+        $linea = isset($producto['linea']) ? limpiarCadena($producto['linea']) : "";
+    }
 }
 
 switch ($_GET["op"]) {
     case 'guardarEditar':
-        if (empty($idProducto)) {
-            //$rspta = $factura->setFactura($descripcion, $precio, $costo, $unidadMedida);            
-            //echo $rspta ? "ok" : "PRODUCTO NO SE PUDO REGISTRAR";
+        if (!empty($idCliente)) {
+            $idEncabezado = $factura->setFacturaEncabezado($idCliente);
+            if ($productos) {
+                $rspta = $factura->setFacturaDetalle($productos);
+                echo $rspta ? "ok" : "PRODUCTO NO SE PUDO REGISTRAR";
+            }
         } else {
             //$rspta = $factura->updateProducto($idProducto, $descripcion, $precio, $costo, $unidadMedida);
             //echo $rspta ? "okUpdated" : "PRODUCTO NO SE PUDO ACTUALIZAR";
@@ -89,9 +101,9 @@ switch ($_GET["op"]) {
             echo json_encode($rspta, JSON_UNESCAPED_UNICODE);
             break;
         case 'listarProductos':
-                $rspta = $factura->getProductos();
-                echo json_encode($rspta, JSON_UNESCAPED_UNICODE);
-                break;
+            $rspta = $factura->getProductos();
+            echo json_encode($rspta, JSON_UNESCAPED_UNICODE);
+            break;
     }
 
 function formatCurrency($value) {
