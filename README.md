@@ -37,6 +37,8 @@
 
 Este proyecto es una aplicación web para la gestión de facturas, desarrollada en el Backend utilizando PHP, MySQL, JavaScript, jQuery y DataTables, en la parte del Frontend usa AdminLTE como template para el dashboard. La aplicación permite agregar, editar y listar facturas, así como gestionar productos y personas asociados a cada factura.
 
+<img width=auto height=auto src="https://github-production-user-asset-6210df.s3.amazonaws.com/52540132/342496625-0fff562a-362b-42e3-9b47-545b53a44685.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240624%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240624T211143Z&X-Amz-Expires=300&X-Amz-Signature=971d385e5bfeed308673db452ee52d494c48ff219f04cf6129f97449899faf9c&X-Amz-SignedHeaders=host&actor_id=52540132&key_id=0&repo_id=817965202" alt="ScreenShot"></a>
+
 ## 💡 Solution <a name = "solution"></a>
 
 ### Funcionalidades Implementadas
