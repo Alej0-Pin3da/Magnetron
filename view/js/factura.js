@@ -73,7 +73,7 @@ function recargarTabla() {
 }
 
 /**
- * Initializes the DataTable with the necessary configurations.
+ * Inicializa DataTable con las configuraciones necesarias
  *
  * @return {void}
  */
