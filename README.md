@@ -1,7 +1,6 @@
 <p align="center">
-  <a href="" rel="noopener">![Magnetron52](https://github.com/Alej0-Pin3da/Magnetron/assets/52540132/878196d0-c082-45c0-a040-885e8c38cdcb)
-
- </a>
+  <a href="" rel="noopener">
+ <img width=auto height=200px src="https://github-production-user-asset-6210df.s3.amazonaws.com/52540132/342495630-878196d0-c082-45c0-a040-885e8c38cdcb.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240624%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240624T210808Z&X-Amz-Expires=300&X-Amz-Signature=ca158a06a78d5cb56563c59a73097134239f5c18e3e8901160f93c38cc3c9df0&X-Amz-SignedHeaders=host&actor_id=52540132&key_id=0&repo_id=817965202" alt="Project logo"></a>
 </p>
 
 <h3 align="center">Proyecto de Gestión de Facturas</h3>
